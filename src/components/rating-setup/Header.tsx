@@ -1,5 +1,12 @@
 
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { HeaderProps } from "./types";
 
 export const Header = ({ onSaveDraft, onPublish }: HeaderProps) => {
@@ -20,16 +27,18 @@ export const Header = ({ onSaveDraft, onPublish }: HeaderProps) => {
               <div className="text-[#757575] font-['Roboto'] text-base font-normal leading-[150%] tracking-[0.15px]">
                 Ticket:
               </div>
-              <div className="flex w-[284px] h-[33px] px-3 flex-col items-start rounded border border-[rgba(0,0,0,0.23)] bg-white">
-                <div className="flex py-2 items-center gap-1.5 flex-1 w-full">
-                  <div className="flex-1 text-[#212121] font-['Roboto'] text-base font-normal leading-6 tracking-[0.15px]">
-                    #364 - João Da Silva Neto
-                  </div>
-                  <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7 10L12 15L17 10H7Z" fill="black" fillOpacity="0.56"></path>
-                  </svg>
-                </div>
-              </div>
+              <Select defaultValue="#364 - João Da Silva Neto">
+                <SelectTrigger 
+                  className="w-[284px] h-[33px] px-3 flex items-center text-[#212121] font-['Roboto'] text-base font-normal leading-6 tracking-[0.15px] border border-[rgba(0,0,0,0.23)] rounded bg-white"
+                >
+                  <SelectValue placeholder="#364 - João Da Silva Neto" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="#364 - João Da Silva Neto">#364 - João Da Silva Neto</SelectItem>
+                  <SelectItem value="#365 - Maria Oliveira">#365 - Maria Oliveira</SelectItem>
+                  <SelectItem value="#366 - Carlos Santana">#366 - Carlos Santana</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
             <div className="flex py-1.5 px-4 flex-col justify-center items-center rounded border border-[rgba(25,118,210,0.50)]">
