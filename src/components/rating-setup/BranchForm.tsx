@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,9 +12,11 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BranchFormProps, Condition } from "./types";
 import { ConditionBuilder } from "./ConditionBuilder";
+import { PriorityEditorModal } from "./PriorityEditorModal";
 
 export const BranchForm = ({ onSubmit }: BranchFormProps) => {
   const [conditions, setConditions] = useState<Condition[]>([]);
+  const [isPriorityModalOpen, setIsPriorityModalOpen] = useState(false);
 
   const handleAddCondition = () => {
     setConditions([...conditions, { field: "", operator: "", value: "" }]);
@@ -59,7 +62,10 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
             />
             Criar branch
           </Button>
-          <Button variant="secondary">
+          <Button 
+            variant="secondary" 
+            onClick={() => setIsPriorityModalOpen(true)}
+          >
             <img
               src="https://cdn.builder.io/api/v1/image/assets/78373acc90494a24931494d3d68de37d/4f40f6bd14d67056eb7dacead688e8cf96ecb1540b2a503d1e48c3e908293fe8?placeholderIfAbsent=true"
               className="w-[18px] h-[18px] mr-2"
@@ -107,6 +113,15 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
           Salvar alterações
         </Button>
       </div>
+
+      <PriorityEditorModal
+        open={isPriorityModalOpen}
+        onOpenChange={setIsPriorityModalOpen}
+        onSave={(items) => {
+          console.log("Saved priorities:", items);
+          // Here you would handle the saved priority order
+        }}
+      />
     </div>
   );
 };
