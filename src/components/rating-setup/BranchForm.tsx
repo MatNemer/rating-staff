@@ -52,37 +52,34 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
   };
 
   return (
-    <div className="bg-white min-h-[704px] w-full mx-auto pt-8 pb-[274px] px-8">
-      <div className="flex w-full items-center gap-[40px_100px] justify-between flex-wrap">
-        <div className="self-stretch flex min-w-60 items-center gap-2 text-base tracking-[0.15px]">
-          <div className="self-stretch flex items-center gap-1 text-[rgba(66,66,66,1)] font-medium whitespace-nowrap justify-center">
+    <div className="bg-white min-h-[704px] w-full mx-auto pt-6 pb-8 px-8">
+      <div className="flex w-full items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 text-[rgba(66,66,66,1)] font-medium">
             <span>Branch</span>
             <img
               src="https://cdn.builder.io/api/v1/image/assets/78373acc90494a24931494d3d68de37d/20f0487d1327a743ab3ba5c10d6e8715e52f6cd1e6b61643617a1234c4922ed6?placeholderIfAbsent=true"
               className="aspect-[1] object-contain w-3.5"
             />
           </div>
-          <Select>
+          <Select defaultValue="branch1">
             <SelectTrigger className="w-[268px]">
-              <SelectValue placeholder="Selecione uma Branch" />
+              <SelectValue placeholder="Produtor Rural PF" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="branch1">Branch 1</SelectItem>
+              <SelectItem value="branch1">Produtor Rural PF</SelectItem>
               <SelectItem value="branch2">Branch 2</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
-        <div className="self-stretch flex min-w-60 items-center gap-2 text-[13px] font-medium uppercase tracking-[0.46px] leading-loose">
+        <div className="flex items-center gap-2">
           <Button 
             className="bg-[#1976D2] text-white"
             onClick={() => setIsCreateBranchModalOpen(true)}
           >
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/78373acc90494a24931494d3d68de37d/779f868ee962d5c19449954e56defbf5327e8ef751b5339ca81a0362665e025d?placeholderIfAbsent=true"
-              className="w-4 h-6 mr-2"
-            />
-            Criar branch
+            <span className="text-white mr-1">+</span>
+            CRIAR
           </Button>
           <Button 
             variant="secondary" 
@@ -101,23 +98,30 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
         <Tabs defaultValue="conditional" className="w-[444px]">
           <TabsList>
             <TabsTrigger value="conditional" className="text-[#1976D2]">
-              Condicionais
+              EDITAR BRANCH
             </TabsTrigger>
-            <TabsTrigger value="score">Pontuações</TabsTrigger>
-            <TabsTrigger value="grade">Classificações</TabsTrigger>
+            <TabsTrigger value="score">SCORE</TabsTrigger>
+            <TabsTrigger value="grade">GRADE</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
       <div className="flex w-full flex-col items-stretch mt-4">
-        <div className="w-full">
+        <div className="w-full mb-4">
           <label className="text-[rgba(33,33,33,1)] text-sm font-medium">
             Nome da Branch
           </label>
           <Input
-            className="mt-1.5 bg-neutral-100"
-            placeholder="Selecione uma Branch"
+            className="mt-1.5"
+            placeholder="Produtor Rural PF"
+            defaultValue="Produtor Rural PF"
           />
+        </div>
+
+        <div className="mb-2">
+          <label className="text-[rgba(33,33,33,1)] text-sm font-medium">
+            Condições
+          </label>
         </div>
 
         <ConditionBuilder
@@ -128,13 +132,15 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
           onConditionChange={handleConditionChange}
         />
 
-        <Button
-          variant="secondary"
-          className="mt-4"
-          onClick={() => onSubmit({ branchName: "", conditions })}
-        >
-          Salvar alterações
-        </Button>
+        <div className="mt-4">
+          <Button
+            variant="secondary"
+            className="bg-gray-200 hover:bg-gray-300 text-gray-700"
+            onClick={() => onSubmit({ branchName: "", conditions })}
+          >
+            SALVAR ALTERAÇÕES
+          </Button>
+        </div>
       </div>
 
       <PriorityEditorModal
