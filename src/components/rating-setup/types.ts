@@ -38,18 +38,3 @@ export interface ConditionBuilderProps {
   onRemoveCondition: (index: number) => void;
   onConditionChange: (index: number, condition: Condition) => void;
 }
-
-// New types for group and rule structure
-export interface Rule {
-  id: string;
-  name: string;
-  score: number;
-}
-
-export interface Group {
-  id: string;
-  name: string;
-  score: number;
-  items: (Group | Rule)[];
-  expanded?: boolean;
-}
