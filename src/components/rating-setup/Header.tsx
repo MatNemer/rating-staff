@@ -1,71 +1,94 @@
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { HeaderProps } from "./types";
 
 export const Header = ({ onSaveDraft, onPublish }: HeaderProps) => {
   return (
-    <div className="bg-white border flex w-full flex-col overflow-hidden items-stretch justify-center border-[rgba(224,224,224,1)] border-solid">
-      <div className="flex w-full items-center overflow-hidden flex-wrap px-4">
-        <div className="self-stretch flex min-h-16 min-w-60 items-center gap-6 text-xl text-black font-medium tracking-[0.15px] leading-[1.6] flex-1 shrink basis-[0%] my-auto">
-          <h1 className="self-stretch my-auto">Rating setup</h1>
-        </div>
-        <div className="self-stretch flex min-w-60 min-h-[33px] items-center gap-4 flex-wrap my-auto">
-          <div className="self-stretch flex min-w-60 items-stretch gap-2 font-normal tracking-[0.15px] h-full">
-            <div className="flex min-w-60 items-center gap-2 text-base h-full">
-              <label className="text-[rgba(117,117,117,1)] self-stretch my-auto">
-                Ticket:
-              </label>
-              <Input
-                className="rounded bg-white border self-stretch min-w-60 min-h-[33px] text-[#9E9E9E] w-[284px] my-auto px-3 border-[rgba(0,0,0,0.23)]"
-                placeholder="Selecione um Ticket"
-              />
+    <div className="flex w-full flex-col justify-center items-start border border-[#E0E0E0] bg-white">
+      <div className="flex w-full p-0 px-4 items-center">
+        <div className="flex min-h-16 items-center gap-6 flex-1">
+          <div className="flex flex-col items-start">
+            <div className="text-[rgba(0,0,0,0.87)] font-['Roboto'] text-[20px] font-medium leading-[160%] tracking-[0.15px]">
+              Rating setup
             </div>
-            <Button
-              variant="outline"
-              className="rounded border flex flex-col overflow-hidden items-center text-sm text-black whitespace-nowrap uppercase justify-center my-auto px-4 py-1.5 border-[rgba(0,0,0,0.12)]"
-            >
-              Preview
-            </Button>
           </div>
-          <div className="border self-stretch w-0 shrink-0 h-[33px] my-auto border-[rgba(224,224,224,1)]" />
-          <div className="self-stretch flex min-w-60 items-center gap-2 text-sm text-black font-normal uppercase tracking-[0.15px] my-auto">
-            <Button
-              variant="outline"
-              onClick={onSaveDraft}
-              className="rounded border self-stretch flex flex-col overflow-hidden items-center justify-center my-auto px-4 py-1.5 border-[rgba(0,0,0,0.12)]"
-            >
-              Salvar rascunho
-            </Button>
-            <Button
-              variant="outline"
-              onClick={onPublish}
-              className="rounded border self-stretch flex flex-col overflow-hidden items-center whitespace-nowrap justify-center my-auto px-4 py-1.5 border-[rgba(0,0,0,0.12)]"
-            >
-              Publicar
-            </Button>
+        </div>
+        
+        <div className="flex h-[33px] items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <div className="text-[#757575] font-['Roboto'] text-base font-normal leading-[150%] tracking-[0.15px]">
+                Ticket:
+              </div>
+              <div className="flex w-[284px] h-[33px] px-3 flex-col items-start rounded border border-[rgba(0,0,0,0.23)] bg-white">
+                <div className="flex py-2 items-center gap-1.5 flex-1 w-full">
+                  <div className="flex-1 text-[#212121] font-['Roboto'] text-base font-normal leading-6 tracking-[0.15px]">
+                    #364 - João Da Silva Neto
+                  </div>
+                  <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 10L12 15L17 10H7Z" fill="black" fillOpacity="0.56"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex py-1.5 px-4 flex-col justify-center items-center rounded border border-[rgba(25,118,210,0.50)]">
+              <div className="flex justify-center items-center gap-2">
+                <div className="text-[#1976D2] font-['Roboto'] text-sm font-normal leading-[150%] tracking-[0.15px] uppercase">
+                  Preview
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="border self-stretch w-0 shrink-0 h-[33px] my-auto border-[rgba(224,224,224,1)]" />
+          
+          <div className="w-px h-[33px] bg-[#E0E0E0]"></div>
+          
+          <div className="flex items-center gap-2">
+            <div className="flex py-1.5 px-4 flex-col justify-center items-center rounded border border-[rgba(25,118,210,0.50)]">
+              <div className="flex justify-center items-center gap-2">
+                <Button
+                  variant="ghost"
+                  onClick={onSaveDraft}
+                  className="text-[#1976D2] font-['Roboto'] text-sm font-normal leading-[150%] tracking-[0.15px] uppercase p-0 h-auto"
+                >
+                  Salvar rascunho
+                </Button>
+              </div>
+            </div>
+            
+            <div className="flex py-1.5 px-4 flex-col justify-center items-center rounded border border-[rgba(25,118,210,0.50)]">
+              <div className="flex justify-center items-center gap-2">
+                <Button
+                  variant="ghost"
+                  onClick={onPublish}
+                  className="text-[#1976D2] font-['Roboto'] text-sm font-normal leading-[150%] tracking-[0.15px] uppercase p-0 h-auto"
+                >
+                  Publicar
+                </Button>
+              </div>
+            </div>
+          </div>
+          
+          <div className="w-px h-[33px] bg-[#E0E0E0]"></div>
+          
           <a 
             href="https://scipiolab.retool.com/apps/66c72b40-ee22-11ef-b34b-0f50e56e29bc/Organization%20Setup/Credit%20Limit%20Definition%20Analyzer/_main"
             target="_blank"
             rel="noopener noreferrer"
             className="no-underline"
           >
-            <Button
-              variant="outline"
-              className="rounded border self-stretch flex min-h-[33px] flex-col overflow-hidden items-center justify-center my-auto px-4 py-1.5 border-[rgba(156,39,176,0.5)] text-[rgba(156,39,176,1)]"
-            >
-              <div className="flex items-stretch gap-1">
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets/78373acc90494a24931494d3d68de37d/6dcad770ce8a0d6bf4cb307ac7bc15f8a5a9be9cea9db932cc01215ab9462543?placeholderIfAbsent=true"
-                  className="aspect-[1] object-contain w-5"
-                />
-                <span className="text-sm font-normal tracking-[0.15px] uppercase my-auto">
+            <div className="flex h-[33px] py-1.5 px-4 flex-col justify-center items-center rounded border border-[rgba(156,39,176,0.50)]">
+              <div className="flex items-center gap-1">
+                <div className="flex items-start gap-2.5">
+                  <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.8333 16.3333H4.16667V4.66667H10V3H4.16667C3.24167 3 2.5 3.75 2.5 4.66667V16.3333C2.5 17.25 3.24167 18 4.16667 18H15.8333C16.75 18 17.5 17.25 17.5 16.3333V10.5H15.8333V16.3333ZM11.6667 3V4.66667H14.6583L6.46667 12.8583L7.64167 14.0333L15.8333 5.84167V8.83333H17.5V3H11.6667Z" fill="#9C27B0"></path>
+                  </svg>
+                </div>
+                <div className="text-[#9C27B0] font-['Roboto'] text-sm font-normal leading-[150%] tracking-[0.15px] uppercase">
                   Credit Limit Analyser
-                </span>
+                </div>
               </div>
-            </Button>
+            </div>
           </a>
         </div>
       </div>
