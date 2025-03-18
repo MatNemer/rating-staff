@@ -193,30 +193,37 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="flex py-1.5 px-4 justify-center items-center rounded bg-[#1976D2] shadow-md">
-              <div className="flex justify-center items-center gap-2">
+            {/* Updated Adicionar Grupo Button */}
+            <button 
+              className="flex p-[6px_16px] justify-center items-center rounded bg-[#1976D2] shadow-[0px_1px_5px_0px_rgba(0,0,0,0.12),0px_2px_2px_0px_rgba(0,0,0,0.14),0px_3px_1px_-2px_rgba(0,0,0,0.20)] relative cursor-pointer transition-all duration-200"
+            >
+              <div className="flex justify-center items-center gap-2 relative">
                 <div className="flex min-h-6 py-0.5 justify-center items-center relative">
-                  <svg className="w-5 h-5 absolute left-[-4px] top-0.5" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg className="w-5 h-5 relative" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.8337 10.8337H10.8337V15.8337H9.16699V10.8337H4.16699V9.16699H9.16699V4.16699H10.8337V9.16699H15.8337V10.8337Z" fill="white"/>
                   </svg>
                 </div>
-                <div className="text-white font-['Roboto'] text-sm font-medium leading-6 tracking-[0.4px] uppercase">
+                <div className="text-white font-['Roboto, sans-serif'] text-sm font-medium leading-6 tracking-[0.4px] uppercase">
                   Adicionar grupo
                 </div>
               </div>
-            </div>
-            <div className="flex py-1.5 px-4 justify-center items-center rounded bg-[#9C27B0] shadow-md">
-              <div className="flex justify-center items-center gap-2">
+            </button>
+
+            {/* Updated Adicionar Regra Button */}
+            <button 
+              className="flex p-[6px_16px] justify-center items-center rounded bg-[#9C27B0] shadow-[0px_1px_5px_0px_rgba(0,0,0,0.12),0px_2px_2px_0px_rgba(0,0,0,0.14),0px_3px_1px_-2px_rgba(0,0,0,0.20)] relative cursor-pointer transition-all duration-200"
+            >
+              <div className="flex justify-center items-center gap-2 relative">
                 <div className="flex min-h-6 py-0.5 justify-center items-center relative">
-                  <svg className="w-5 h-5 absolute left-[-4px] top-0.5" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg className="w-5 h-5 relative" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.8337 10.8337H10.8337V15.8337H9.16699V10.8337H4.16699V9.16699H9.16699V4.16699H10.8337V9.16699H15.8337V10.8337Z" fill="white"/>
                   </svg>
                 </div>
-                <div className="text-white font-['Roboto'] text-sm font-medium leading-6 tracking-[0.4px] uppercase">
+                <div className="text-white font-['Roboto, sans-serif'] text-sm font-medium leading-6 tracking-[0.4px] uppercase">
                   Adicionar Regra
                 </div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
       )}
