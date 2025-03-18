@@ -9,16 +9,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BranchFormProps, Condition } from "./types";
 import { ConditionBuilder } from "./ConditionBuilder";
 import { PriorityEditorModal } from "./PriorityEditorModal";
 import { CreateBranchModal } from "./CreateBranchModal";
+import { Plus } from "lucide-react";
 
 export const BranchForm = ({ onSubmit }: BranchFormProps) => {
   const [conditions, setConditions] = useState<Condition[]>([]);
   const [isPriorityModalOpen, setIsPriorityModalOpen] = useState(false);
   const [isCreateBranchModalOpen, setIsCreateBranchModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("conditional");
 
   const handleAddExpression = () => {
     // Add a new condition with AND logical operator
@@ -98,44 +100,134 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
       </div>
 
       <div className="mt-4 border-b border-[rgba(238,238,238,1)]">
-        <Tabs defaultValue="conditional" className="w-[444px]">
+        <Tabs 
+          defaultValue="conditional" 
+          className="w-[444px]"
+          value={activeTab}
+          onValueChange={setActiveTab}
+        >
           <TabsList>
-            <TabsTrigger value="conditional" className="text-[#1976D2]">
+            <TabsTrigger value="conditional" className={activeTab === "conditional" ? "text-[#1976D2]" : ""}>
               Condicionais
             </TabsTrigger>
-            <TabsTrigger value="score">Pontuações</TabsTrigger>
-            <TabsTrigger value="grade">Classificações</TabsTrigger>
+            <TabsTrigger value="score" className={activeTab === "score" ? "text-[#1976D2]" : ""}>
+              Pontuações
+            </TabsTrigger>
+            <TabsTrigger value="grade" className={activeTab === "grade" ? "text-[#1976D2]" : ""}>
+              Classificações
+            </TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
-      <div className="flex w-full flex-col items-stretch mt-4">
-        <div className="w-full">
-          <label className="text-[rgba(33,33,33,1)] text-sm font-medium">
-            Nome da Branch
-          </label>
-          <Input
-            className="mt-1.5 bg-neutral-100"
-            placeholder="Selecione uma Branch"
+      {activeTab === "conditional" && (
+        <div className="flex w-full flex-col items-stretch mt-4">
+          <div className="w-full">
+            <label className="text-[rgba(33,33,33,1)] text-sm font-medium">
+              Nome da Branch
+            </label>
+            <Input
+              className="mt-1.5 bg-neutral-100"
+              placeholder="Selecione uma Branch"
+            />
+          </div>
+
+          <ConditionBuilder
+            conditions={conditions}
+            onAddCondition={handleAddCondition}
+            onAddExpression={handleAddExpression}
+            onRemoveCondition={handleRemoveCondition}
+            onConditionChange={handleConditionChange}
           />
+
+          <Button
+            variant="secondary"
+            className="mt-4"
+            onClick={() => onSubmit({ branchName: "", conditions })}
+          >
+            Salvar alterações
+          </Button>
         </div>
+      )}
 
-        <ConditionBuilder
-          conditions={conditions}
-          onAddCondition={handleAddCondition}
-          onAddExpression={handleAddExpression}
-          onRemoveCondition={handleRemoveCondition}
-          onConditionChange={handleConditionChange}
-        />
+      {activeTab === "score" && (
+        <div className="flex flex-col items-start gap-4 w-full mt-4">
+          <div className="flex justify-between items-center w-full">
+            <div className="flex flex-col items-start gap-1">
+              <div className="text-[rgba(0,0,0,0.87)] font-['Roboto'] text-base font-semibold leading-[160%] tracking-[0.15px]">
+                Grupos e Regras
+              </div>
+              <div className="text-[#757575] font-['Roboto'] text-sm font-normal leading-[157%] tracking-[0.1px]">
+                Defina as condições e regras do rating que está sendo implementado
+              </div>
+            </div>
+            <div className="flex items-center gap-1">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.25 6.75H11.25V2.25H6.75V6.75H3.75L9 12L14.25 6.75ZM3.75 13.5V15H14.25V13.5H3.75Z" fill="black" fillOpacity="0.38"/>
+              </svg>
+              <div className="text-[rgba(0,0,0,0.38)] font-['Roboto'] text-[13px] font-medium leading-[22px] tracking-[0.46px] uppercase">
+                Baixar definition
+              </div>
+            </div>
+          </div>
 
-        <Button
-          variant="secondary"
-          className="mt-4"
-          onClick={() => onSubmit({ branchName: "", conditions })}
-        >
-          Salvar alterações
-        </Button>
-      </div>
+          <div className="flex flex-col items-start w-full">
+            <div className="flex flex-col justify-center items-center gap-2 w-full py-4 rounded-md border border-[#E0E0E0] bg-white">
+              <div className="flex p-2 items-center gap-2.5 rounded bg-[#EEE]">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clipPath="url(#clip0_11906_40993)">
+                    <path d="M19 6V16.5L20.95 18.45C20.98 18.3 21 18.15 21 18V6C21 4.9 20.1 4 19 4H6.5L8.5 6H19Z" fill="#323232"/>
+                    <path d="M3.2202 3.32031L1.9502 4.59031L3.0002 5.64031V18.0003C3.0002 19.1003 3.9002 20.0003 5.0002 20.0003H17.3602L19.4202 22.0603L20.6902 20.7903L3.2202 3.32031ZM15.0002 18.0003H5.0002V7.64031L15.3602 18.0003H15.0002Z" fill="#323232"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_11906_40993">
+                      <rect width="24" height="24" fill="white"/>
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+              <div className="text-[#757575] font-['Roboto'] text-sm font-normal leading-[157%] tracking-[0.1px]">
+                Nenhum grupo adicionado até o momento
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-4">
+            <div className="flex py-1.5 px-4 justify-center items-center rounded bg-[#1976D2] shadow-md">
+              <div className="flex justify-center items-center gap-2">
+                <div className="flex min-h-6 py-0.5 justify-center items-center relative">
+                  <svg className="w-5 h-5 absolute left-[-4px] top-0.5" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.8337 10.8337H10.8337V15.8337H9.16699V10.8337H4.16699V9.16699H9.16699V4.16699H10.8337V9.16699H15.8337V10.8337Z" fill="white"/>
+                  </svg>
+                </div>
+                <div className="text-white font-['Roboto'] text-sm font-medium leading-6 tracking-[0.4px] uppercase">
+                  Adicionar grupo
+                </div>
+              </div>
+            </div>
+            <div className="flex py-1.5 px-4 justify-center items-center rounded bg-[#9C27B0] shadow-md">
+              <div className="flex justify-center items-center gap-2">
+                <div className="flex min-h-6 py-0.5 justify-center items-center relative">
+                  <svg className="w-5 h-5 absolute left-[-4px] top-0.5" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.8337 10.8337H10.8337V15.8337H9.16699V10.8337H4.16699V9.16699H9.16699V4.16699H10.8337V9.16699H15.8337V10.8337Z" fill="white"/>
+                  </svg>
+                </div>
+                <div className="text-white font-['Roboto'] text-sm font-medium leading-6 tracking-[0.4px] uppercase">
+                  Adicionar Regra
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "grade" && (
+        <div className="flex w-full flex-col items-stretch mt-4">
+          <div className="text-gray-600 text-center p-8">
+            Conteúdo da aba Classificações
+          </div>
+        </div>
+      )}
 
       <PriorityEditorModal
         open={isPriorityModalOpen}
