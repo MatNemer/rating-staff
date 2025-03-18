@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,9 +12,11 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BranchFormProps, Condition } from "./types";
 import { ConditionBuilder } from "./ConditionBuilder";
+import { CreateBranchModal } from "./CreateBranchModal";
 
 export const BranchForm = ({ onSubmit }: BranchFormProps) => {
   const [conditions, setConditions] = useState<Condition[]>([]);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
   const handleAddCondition = () => {
     setConditions([...conditions, { field: "", operator: "", value: "" }]);
@@ -27,6 +30,11 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
     const newConditions = [...conditions];
     newConditions[index] = condition;
     setConditions(newConditions);
+  };
+
+  const handleCreateBranch = (data: { branchName: string }) => {
+    console.log("Creating new branch:", data);
+    // Here you would typically create the branch in your backend
   };
 
   return (
@@ -52,7 +60,10 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
         </div>
 
         <div className="self-stretch flex min-w-60 items-center gap-2 text-[13px] font-medium uppercase tracking-[0.46px] leading-loose">
-          <Button className="bg-[#1976D2] text-white">
+          <Button 
+            className="bg-[#1976D2] text-white"
+            onClick={() => setCreateModalOpen(true)}
+          >
             <img
               src="https://cdn.builder.io/api/v1/image/assets/78373acc90494a24931494d3d68de37d/779f868ee962d5c19449954e56defbf5327e8ef751b5339ca81a0362665e025d?placeholderIfAbsent=true"
               className="w-4 h-6 mr-2"
@@ -107,6 +118,12 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
           Salvar alterações
         </Button>
       </div>
+      
+      <CreateBranchModal 
+        open={createModalOpen}
+        onOpenChange={setCreateModalOpen}
+        onConfirm={handleCreateBranch}
+      />
     </div>
   );
 };
