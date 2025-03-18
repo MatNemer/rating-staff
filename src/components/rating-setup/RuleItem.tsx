@@ -80,12 +80,6 @@ export const RuleItem = ({
             value={score}
             onChange={(e) => handleScoreChange(e.target.value)}
           />
-          <div className="flex-shrink-0 w-[25px] h-[40px] bg-[#E0E0E0] flex flex-col justify-center items-center overflow-hidden">
-            <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4.51419 8.24173L8.75684 3.99909L12.9995 8.24173L4.51419 8.24173Z" fill="#505050"/>
-              <path d="M12.9995 28.727L8.75684 32.9697L4.5142 28.727H12.9995Z" fill="#505050"/>
-            </svg>
-          </div>
         </div>
       </div>
 
