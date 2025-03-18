@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { Rule } from "./types";
-import { Edit, MinusCircle } from "lucide-react";
 import { Input } from "../ui/input";
 
 interface RuleItemProps {
@@ -26,20 +25,30 @@ export const RuleItem = ({
   };
 
   return (
-    <div className="flex items-center w-full mb-2">
-      <button 
-        className="mr-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center"
-        onClick={() => onRemove(rule.id)}
-      >
-        <MinusCircle className="w-4 h-4" />
-      </button>
+    <div className="flex items-center w-full p-2 rounded-md bg-[#F5F5F5] gap-2">
+      <div className="p-2">
+        <button 
+          onClick={() => onRemove(rule.id)}
+        >
+          <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clipPath="url(#clip0_12036_19340)">
+              <path d="M12 2.48438C6.48 2.48438 2 6.96438 2 12.4844C2 18.0044 6.48 22.4844 12 22.4844C17.52 22.4844 22 18.0044 22 12.4844C22 6.96438 17.52 2.48438 12 2.48438ZM17 13.4844H7V11.4844H17V13.4844Z" fill="#C62828"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_12036_19340">
+                <rect width="24" height="24" fill="white" transform="translate(0 0.484375)"/>
+              </clipPath>
+            </defs>
+          </svg>
+        </button>
+      </div>
       
       {isEditing ? (
         <div className="flex-grow">
           <Input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="flex-grow"
+            className="flex-grow bg-white"
             onBlur={handleSubmitEdit}
             onKeyDown={(e) => e.key === "Enter" && handleSubmitEdit()}
             autoFocus
@@ -47,34 +56,51 @@ export const RuleItem = ({
           />
         </div>
       ) : (
-        <div className="flex-grow flex items-center">
-          <div className="font-medium">{rule.name}</div>
-          <button
-            className="ml-2"
-            onClick={() => setIsEditing(true)}
-          >
-            <Edit className="w-4 h-4 text-gray-500" />
-          </button>
+        <div className="flex-grow">
+          <div className="font-['Roboto'] text-[16px] text-[#212121] leading-[160%] tracking-[0.15px]">
+            {rule.name}
+          </div>
         </div>
       )}
 
-      <div className="flex items-center ml-auto">
-        <Input
-          type="number"
-          className="w-20 h-9 text-center"
-          value={rule.score}
-          onChange={(e) => onScoreChange(rule.id, parseInt(e.target.value) || 0)}
-        />
-        
-        <button className="flex h-9 w-9 items-center justify-center ml-1">
-          <svg 
-            width="24" 
-            height="24" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M4 8H8V4H10V8H14V10H10V14H8V10H4V8ZM16 4V6H20V10H22V6C22 5.46957 21.7893 4.96086 21.4142 4.58579C21.0391 4.21071 20.5304 4 20 4H16ZM20 16H22V20C22 20.5304 21.7893 21.0391 21.4142 21.4142C21.0391 21.7893 20.5304 22 20 22H16V20H20V16ZM10 20V16H8V20H4C3.46957 20 2.96086 19.7893 2.58579 19.4142C2.21071 19.0391 2 18.5304 2 18V4C2 3.46957 2.21071 2.96086 2.58579 2.58579C2.96086 2.21071 3.46957 2 4 2H18C18.5304 2 19.0391 2.21071 19.4142 2.58579C19.7893 2.96086 20 3.46957 20 4V8H18V4H4V18H8V20H10Z" fill="#757575"/>
+      <div className="w-[80px]">
+        <div className="border border-black/23 rounded-md bg-white px-3">
+          <div className="flex items-center">
+            <input
+              type="number"
+              className="w-full h-10 text-center text-[#212121] font-['Roboto'] text-base bg-transparent outline-none"
+              value={rule.score}
+              onChange={(e) => onScoreChange(rule.id, parseInt(e.target.value) || 0)}
+            />
+            <svg className="flex-shrink-0" width="17" height="25" viewBox="0 0 17 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="16.4853" height="24.9706" transform="translate(0.514648)" fill="#E0E0E0"/>
+              <path d="M4.51419 8.24173L8.75684 3.99909L12.9995 8.24173L4.51419 8.24173Z" fill="#212121"/>
+              <path d="M12.9995 16.727L8.75684 20.9697L4.5142 16.727H12.9995Z" fill="#212121"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-center items-center w-10 h-10">
+        <button
+          onClick={() => setIsEditing(true)}
+        >
+          <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clipPath="url(#clip0_12036_19357)">
+              <path d="M14 4.48438H10V8.48438H14V4.48438Z" fill="#424242"/>
+              <path d="M8 16.4844H4V20.4844H8V16.4844Z" fill="#424242"/>
+              <path d="M8 10.4844H4V14.4844H8V10.4844Z" fill="#424242"/>
+              <path d="M8 4.48438H4V8.48438H8V4.48438Z" fill="#424242"/>
+              <path d="M14 12.9044V10.4844H10V14.4844H12.42L14 12.9044Z" fill="#424242"/>
+              <path d="M20.88 11.7744L19.71 10.6044C19.55 10.4444 19.29 10.4444 19.13 10.6044L18.25 11.4844L20 13.2344L20.88 12.3544C21.04 12.1944 21.04 11.9344 20.88 11.7744Z" fill="#424242"/>
+              <path d="M11 18.7345V20.4845H12.75L19.42 13.8145L17.67 12.0645L11 18.7345Z" fill="#424242"/>
+              <path d="M20 4.48438H16V8.48438H20V4.48438Z" fill="#424242"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_12036_19357">
+                <rect width="24" height="24" fill="white" transform="translate(0 0.484375)"/>
+              </clipPath>
+            </defs>
           </svg>
         </button>
       </div>
