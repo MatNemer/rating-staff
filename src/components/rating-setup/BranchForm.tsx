@@ -98,13 +98,13 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
       </div>
 
       <div className="mt-4 border-b border-[rgba(238,238,238,1)]">
-        <Tabs defaultValue="edit" className="w-[444px]">
+        <Tabs defaultValue="conditional" className="w-[444px]">
           <TabsList>
-            <TabsTrigger value="edit" className="text-[#1976D2]">
-              Editar Branch
+            <TabsTrigger value="conditional" className="text-[#1976D2]">
+              Condicionais
             </TabsTrigger>
-            <TabsTrigger value="score">Score</TabsTrigger>
-            <TabsTrigger value="grade">Grade</TabsTrigger>
+            <TabsTrigger value="score">Pontuação</TabsTrigger>
+            <TabsTrigger value="grade">Classificação</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
