@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { HeaderProps } from "./types";
@@ -45,20 +46,27 @@ export const Header = ({ onSaveDraft, onPublish }: HeaderProps) => {
             </Button>
           </div>
           <div className="border self-stretch w-0 shrink-0 h-[33px] my-auto border-[rgba(224,224,224,1)]" />
-          <Button
-            variant="outline"
-            className="rounded border self-stretch flex min-h-[33px] flex-col overflow-hidden items-center justify-center my-auto px-4 py-1.5 border-[rgba(156,39,176,0.5)] text-[rgba(156,39,176,1)]"
+          <a 
+            href="https://scipiolab.retool.com/apps/66c72b40-ee22-11ef-b34b-0f50e56e29bc/Organization%20Setup/Credit%20Limit%20Definition%20Analyzer/_main"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="no-underline"
           >
-            <div className="flex items-stretch gap-1">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/78373acc90494a24931494d3d68de37d/6dcad770ce8a0d6bf4cb307ac7bc15f8a5a9be9cea9db932cc01215ab9462543?placeholderIfAbsent=true"
-                className="aspect-[1] object-contain w-5"
-              />
-              <span className="text-sm font-normal tracking-[0.15px] uppercase my-auto">
-                Credit Limit Analyser
-              </span>
-            </div>
-          </Button>
+            <Button
+              variant="outline"
+              className="rounded border self-stretch flex min-h-[33px] flex-col overflow-hidden items-center justify-center my-auto px-4 py-1.5 border-[rgba(156,39,176,0.5)] text-[rgba(156,39,176,1)]"
+            >
+              <div className="flex items-stretch gap-1">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets/78373acc90494a24931494d3d68de37d/6dcad770ce8a0d6bf4cb307ac7bc15f8a5a9be9cea9db932cc01215ab9462543?placeholderIfAbsent=true"
+                  className="aspect-[1] object-contain w-5"
+                />
+                <span className="text-sm font-normal tracking-[0.15px] uppercase my-auto">
+                  Credit Limit Analyser
+                </span>
+              </div>
+            </Button>
+          </a>
         </div>
       </div>
     </div>
