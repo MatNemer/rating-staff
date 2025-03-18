@@ -9,12 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BranchFormProps, Condition } from "./types";
 import { ConditionBuilder } from "./ConditionBuilder";
 import { PriorityEditorModal } from "./PriorityEditorModal";
 import { CreateBranchModal } from "./CreateBranchModal";
-import { Plus } from "lucide-react";
 import { ScoreBuilder } from "./ScoreBuilder";
 
 export const BranchForm = ({ onSubmit }: BranchFormProps) => {
@@ -100,25 +98,51 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
         </div>
       </div>
 
-      <div className="mt-4 border-b border-[rgba(238,238,238,1)]">
-        <Tabs 
-          defaultValue="conditional" 
-          className="w-[444px]"
-          value={activeTab}
-          onValueChange={setActiveTab}
-        >
-          <TabsList>
-            <TabsTrigger value="conditional" className={activeTab === "conditional" ? "text-[#1976D2]" : ""}>
-              Condicionais
-            </TabsTrigger>
-            <TabsTrigger value="score" className={activeTab === "score" ? "text-[#1976D2]" : ""}>
-              Pontuações
-            </TabsTrigger>
-            <TabsTrigger value="grade" className={activeTab === "grade" ? "text-[#1976D2]" : ""}>
-              Classificações
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+      {/* Custom Tab Navigation based on Builder.io code */}
+      <div className="mt-4 w-full border-b border-[#EEE]">
+        <div className="flex w-full items-start">
+          <div 
+            className="flex flex-col justify-center items-center cursor-pointer"
+            onClick={() => setActiveTab("conditional")}
+          >
+            <div className="flex px-4 py-2 justify-center items-center gap-2">
+              <div className={`font-['Roboto'] text-sm leading-6 tracking-[0.4px] uppercase ${activeTab === "conditional" ? "text-[#1976D2]" : "text-[rgba(0,0,0,0.6)]"}`}>
+                CONDICIONAIS
+              </div>
+            </div>
+            {activeTab === "conditional" && (
+              <div className="w-[119px] h-0.5 bg-[#1976D2]"></div>
+            )}
+          </div>
+          
+          <div 
+            className="flex flex-col justify-center items-center cursor-pointer"
+            onClick={() => setActiveTab("score")}
+          >
+            <div className="flex px-4 py-2 justify-center items-center gap-2">
+              <div className={`font-['Roboto'] text-sm leading-6 tracking-[0.4px] uppercase ${activeTab === "score" ? "text-[#1976D2]" : "text-[rgba(0,0,0,0.6)]"}`}>
+                PONTUAÇÃO
+              </div>
+            </div>
+            {activeTab === "score" && (
+              <div className="w-[119px] h-0.5 bg-[#1976D2]"></div>
+            )}
+          </div>
+          
+          <div 
+            className="flex flex-col justify-center items-center cursor-pointer"
+            onClick={() => setActiveTab("grade")}
+          >
+            <div className="flex px-4 py-2 justify-center items-center gap-2">
+              <div className={`font-['Roboto'] text-sm leading-6 tracking-[0.4px] uppercase ${activeTab === "grade" ? "text-[#1976D2]" : "text-[rgba(0,0,0,0.6)]"}`}>
+                CLASSIFICAÇÃO
+              </div>
+            </div>
+            {activeTab === "grade" && (
+              <div className="w-[119px] h-0.5 bg-[#1976D2]"></div>
+            )}
+          </div>
+        </div>
       </div>
 
       {activeTab === "conditional" && (
