@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Group, Rule } from "./types";
 import { GroupItem } from "./GroupItem";
 import { v4 as uuidv4 } from "uuid";
@@ -61,11 +61,31 @@ export const ScoreBuilder = () => {
     }
   ]);
 
+  // This effect updates group scores based on their children's scores
+  useEffect(() => {
+    const updateGroupScores = (items: (Group | Rule)[]): (Group | Rule)[] => {
+      return items.map(item => {
+        if ('items' in item) {
+          const updatedItems = updateGroupScores(item.items);
+          const totalScore = updatedItems.reduce((sum, child) => sum + child.score, 0);
+          return {
+            ...item,
+            items: updatedItems,
+            score: totalScore
+          };
+        }
+        return item;
+      });
+    };
+
+    setGroups(prevGroups => updateGroupScores(prevGroups) as Group[]);
+  }, [groups]);
+
   const handleAddTopLevelGroup = () => {
     const newGroup: Group = {
       id: uuidv4(),
       name: "Novo Grupo",
-      score: 100,
+      score: 0,
       items: [],
       expanded: true
     };
@@ -76,7 +96,7 @@ export const ScoreBuilder = () => {
     const newRule: Rule = {
       id: uuidv4(),
       name: "Nova Regra",
-      score: 100
+      score: 0
     };
     // Rules can't have children so we just add it to the array
     // This is required for the top level only
@@ -104,7 +124,7 @@ export const ScoreBuilder = () => {
     const newGroup: Group = {
       id: uuidv4(),
       name: "Novo Grupo",
-      score: 100,
+      score: 0,
       items: [],
       expanded: true
     };
@@ -116,7 +136,7 @@ export const ScoreBuilder = () => {
     const newRule: Rule = {
       id: uuidv4(),
       name: "Nova Regra",
-      score: 100
+      score: 0
     };
     
     setGroups(prevGroups => findAndAddItem(prevGroups as Group[], parentId, newRule) as Group[]);

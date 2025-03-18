@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Group, Rule } from "./types";
 import { RuleItem } from "./RuleItem";
 import { Input } from "../ui/input";
@@ -30,6 +30,11 @@ export const GroupItem = ({
     onUpdate(group.id, { name });
     setIsEditing(false);
   };
+
+  // Calculate the total score from all children items
+  const totalScore = useMemo(() => {
+    return group.items.reduce((sum, item) => sum + item.score, 0);
+  }, [group.items]);
 
   return (
     <div className="w-full bg-white border border-[#E0E0E0] rounded-md">
@@ -98,14 +103,14 @@ export const GroupItem = ({
             )}
           </div>
 
-          {/* Score input */}
+          {/* Score display (read-only) */}
           <div className="w-[80px]">
-            <div className="border border-black/23 rounded-md px-3">
+            <div className="border border-black/23 rounded-md px-3 bg-gray-50">
               <input
                 type="number"
-                className="w-full h-10 text-center text-black/38 font-['Roboto'] text-base bg-transparent outline-none"
-                value={group.score}
-                onChange={(e) => onScoreChange(group.id, parseInt(e.target.value) || 0)}
+                className="w-full h-10 text-center text-black/38 font-['Roboto'] text-base bg-transparent outline-none cursor-not-allowed"
+                value={totalScore}
+                readOnly
               />
             </div>
           </div>
