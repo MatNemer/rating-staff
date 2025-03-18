@@ -103,8 +103,8 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
             <TabsTrigger value="conditional" className="text-[#1976D2]">
               Condicionais
             </TabsTrigger>
-            <TabsTrigger value="score">Pontuação</TabsTrigger>
-            <TabsTrigger value="grade">Classificação</TabsTrigger>
+            <TabsTrigger value="score">Pontuações</TabsTrigger>
+            <TabsTrigger value="grade">Classificações</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
