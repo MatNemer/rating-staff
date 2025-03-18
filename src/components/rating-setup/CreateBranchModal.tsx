@@ -10,18 +10,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, X, MinusCircle } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
+import { Condition } from "./types";
 
 type CreateBranchData = {
   branchName: string;
   organization?: string;
   workflow?: string;
   referenceBranch?: string;
-  conditions: Array<{
-    field: string;
-    operator: string;
-    value: string;
-  }>;
+  conditions: Condition[];
 };
 
 interface CreateBranchModalProps {
@@ -39,20 +36,24 @@ export const CreateBranchModal = ({
   const [organization, setOrganization] = useState<string | undefined>();
   const [workflow, setWorkflow] = useState<string | undefined>();
   const [referenceBranch, setReferenceBranch] = useState<string | undefined>();
-  const [conditions, setConditions] = useState<Array<{
-    field: string;
-    operator: string;
-    value: string;
-  }>>([{ field: "", operator: "", value: "" }]);
-
-  const handleAddCondition = () => {
-    setConditions([...conditions, { field: "", operator: "", value: "" }]);
-  };
+  const [conditions, setConditions] = useState<Condition[]>([
+    { field: "", operator: "", value: "" }
+  ]);
 
   const handleAddExpression = () => {
-    // This would normally add a different type of condition
-    // For now, we'll just add a regular condition
-    setConditions([...conditions, { field: "", operator: "", value: "" }]);
+    // Add a new condition with AND logical operator
+    setConditions([
+      ...conditions,
+      { field: "", operator: "", value: "", logicalOperator: "AND" },
+    ]);
+  };
+
+  const handleAddCondition = () => {
+    // Add a new condition with OR logical operator
+    setConditions([
+      ...conditions,
+      { field: "", operator: "", value: "", logicalOperator: "OR" },
+    ]);
   };
 
   const handleRemoveCondition = (index: number) => {
@@ -170,64 +171,73 @@ export const CreateBranchModal = ({
             <div className="border border-[#EEE] rounded-md p-2.5 flex flex-col gap-2.5">
               <div className="bg-[#F5F5F5] rounded-md p-2.5 flex flex-col gap-2.5">
                 {conditions.map((condition, index) => (
-                  <div key={index} className="flex items-center gap-3 flex-wrap md:flex-nowrap">
-                    <div className="flex-1 min-w-[150px]">
-                      <Select 
-                        onValueChange={(value) => handleUpdateCondition(index, "field", value)} 
-                        value={condition.field}
-                      >
-                        <SelectTrigger className="bg-white">
-                          <SelectValue placeholder="Selecione um campo" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="field1">Campo 1</SelectItem>
-                          <SelectItem value="field2">Campo 2</SelectItem>
-                        </SelectContent>
-                      </Select>
+                  <div key={index}>
+                    {condition.logicalOperator && (
+                      <div className="flex justify-center my-2 font-medium text-gray-700">
+                        {condition.logicalOperator === "AND" ? "E" : "OU"}
+                      </div>
+                    )}
+                    <div className="flex items-center gap-3 flex-wrap md:flex-nowrap">
+                      <div className="flex-none">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="bg-red-100 hover:bg-red-200 rounded-md p-2"
+                          onClick={() => handleRemoveCondition(index)}
+                        >
+                          <Trash2 className="h-5 w-5 text-red-600" />
+                        </Button>
+                      </div>
+                      
+                      <div className="flex-1 min-w-[150px]">
+                        <Select 
+                          onValueChange={(value) => handleUpdateCondition(index, "field", value)} 
+                          value={condition.field}
+                        >
+                          <SelectTrigger className="bg-white">
+                            <SelectValue placeholder="Selecione um campo" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="field1">Campo 1</SelectItem>
+                            <SelectItem value="field2">Campo 2</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div className="flex-1 min-w-[150px]">
+                        <Select 
+                          onValueChange={(value) => handleUpdateCondition(index, "operator", value)} 
+                          value={condition.operator}
+                        >
+                          <SelectTrigger className="bg-white">
+                            <SelectValue placeholder="Selecione uma condição" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="equals">Igual a</SelectItem>
+                            <SelectItem value="notEquals">Diferente de</SelectItem>
+                            <SelectItem value="greaterThan">Maior que</SelectItem>
+                            <SelectItem value="lessThan">Menor que</SelectItem>
+                            <SelectItem value="contains">Contém o valor</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div className="flex-1 min-w-[150px]">
+                        <Select 
+                          onValueChange={(value) => handleUpdateCondition(index, "value", value)} 
+                          value={condition.value}
+                        >
+                          <SelectTrigger className="bg-white">
+                            <SelectValue placeholder="Selecione um valor" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="value1">Valor 1</SelectItem>
+                            <SelectItem value="value2">Valor 2</SelectItem>
+                            <SelectItem value="value3">Valor 3</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
-                    
-                    <div className="flex-1 min-w-[150px]">
-                      <Select 
-                        onValueChange={(value) => handleUpdateCondition(index, "operator", value)} 
-                        value={condition.operator}
-                      >
-                        <SelectTrigger className="bg-white">
-                          <SelectValue placeholder="Selecione uma condição" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="equals">Igual a</SelectItem>
-                          <SelectItem value="notEquals">Diferente de</SelectItem>
-                          <SelectItem value="greaterThan">Maior que</SelectItem>
-                          <SelectItem value="lessThan">Menor que</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div className="flex-1 min-w-[150px]">
-                      <Select 
-                        onValueChange={(value) => handleUpdateCondition(index, "value", value)} 
-                        value={condition.value}
-                      >
-                        <SelectTrigger className="bg-white">
-                          <SelectValue placeholder="Selecione um valor" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="value1">Valor 1</SelectItem>
-                          <SelectItem value="value2">Valor 2</SelectItem>
-                          <SelectItem value="value3">Valor 3</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <Button 
-                      type="button" 
-                      size="icon" 
-                      variant="ghost" 
-                      onClick={() => handleRemoveCondition(index)}
-                      className="text-red-600 hover:text-red-700 p-0"
-                    >
-                      <MinusCircle className="h-5 w-5" />
-                    </Button>
                   </div>
                 ))}
                 

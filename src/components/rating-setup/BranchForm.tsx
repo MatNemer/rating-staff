@@ -20,8 +20,20 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
   const [isPriorityModalOpen, setIsPriorityModalOpen] = useState(false);
   const [isCreateBranchModalOpen, setIsCreateBranchModalOpen] = useState(false);
 
+  const handleAddExpression = () => {
+    // Add a new condition with AND logical operator
+    setConditions([
+      ...conditions,
+      { field: "", operator: "", value: "", logicalOperator: "AND" },
+    ]);
+  };
+
   const handleAddCondition = () => {
-    setConditions([...conditions, { field: "", operator: "", value: "" }]);
+    // Add a new condition with OR logical operator
+    setConditions([
+      ...conditions,
+      { field: "", operator: "", value: "", logicalOperator: "OR" },
+    ]);
   };
 
   const handleRemoveCondition = (index: number) => {
@@ -111,6 +123,7 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
         <ConditionBuilder
           conditions={conditions}
           onAddCondition={handleAddCondition}
+          onAddExpression={handleAddExpression}
           onRemoveCondition={handleRemoveCondition}
           onConditionChange={handleConditionChange}
         />

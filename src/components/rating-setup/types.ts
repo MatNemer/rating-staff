@@ -1,3 +1,4 @@
+
 export interface SelectOption {
   value: string;
   label: string;
@@ -12,6 +13,7 @@ export interface Condition {
   field: string;
   operator: string;
   value: string;
+  logicalOperator?: "AND" | "OR";
 }
 
 export interface HeaderProps {
@@ -32,6 +34,7 @@ export interface BranchFormProps {
 export interface ConditionBuilderProps {
   conditions: Condition[];
   onAddCondition: () => void;
+  onAddExpression: () => void;
   onRemoveCondition: (index: number) => void;
   onConditionChange: (index: number, condition: Condition) => void;
 }
