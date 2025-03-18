@@ -39,41 +39,17 @@ export interface ConditionBuilderProps {
   onConditionChange: (index: number, condition: Condition) => void;
 }
 
-export interface BaseItem {
+// New types for group and rule structure
+export interface Rule {
   id: string;
   name: string;
   score: number;
-  type: 'group' | 'rule';
 }
 
-export interface Rule extends BaseItem {
-  type: 'rule';
-}
-
-export interface Group extends BaseItem {
-  type: 'group';
+export interface Group {
+  id: string;
+  name: string;
+  score: number;
   items: (Group | Rule)[];
-  isOpen?: boolean;
-}
-
-export interface RuleItemProps {
-  rule: Rule;
-  onRemove: (id: string) => void;
-  onScoreChange: (id: string, score: number) => void;
-  onEdit: (id: string) => void;
-}
-
-export interface GroupItemProps {
-  group: Group;
-  onRemove: (id: string) => void;
-  onScoreChange: (id: string, score: number) => void;
-  onEdit: (id: string) => void;
-  onAddGroup: (parentId: string) => void;
-  onAddRule: (parentId: string) => void;
-  onToggle: (id: string) => void;
-}
-
-export interface ScoreBuilderProps {
-  onAddGroup: () => void;
-  onAddRule: () => void;
+  expanded?: boolean;
 }

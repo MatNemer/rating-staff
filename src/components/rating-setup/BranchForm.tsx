@@ -54,14 +54,6 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
     // Here you would typically send this data to your API
   };
 
-  const handleAddGroup = () => {
-    console.log("Adding a new group");
-  };
-
-  const handleAddRule = () => {
-    console.log("Adding a new rule");
-  };
-
   return (
     <div className="bg-white min-h-[704px] w-full mx-auto pt-8 pb-[274px] px-8">
       <div className="flex w-full items-center gap-[40px_100px] justify-between flex-wrap">
@@ -180,10 +172,7 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
             </div>
           </div>
 
-          <ScoreBuilder 
-            onAddGroup={handleAddGroup}
-            onAddRule={handleAddRule}
-          />
+          <ScoreBuilder />
         </div>
       )}
 

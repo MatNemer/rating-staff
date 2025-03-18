@@ -1,103 +1,139 @@
 
-import { Input } from "@/components/ui/input";
-import { Group, GroupItemProps } from "./types";
+import { useState } from "react";
+import { Group, Rule } from "./types";
 import { RuleItem } from "./RuleItem";
-import { Edit, MinusCircle, ChevronDown, ChevronUp, Plus } from "lucide-react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDown, ChevronRight, Edit, MinusCircle, Plus } from "lucide-react";
+import { Input } from "../ui/input";
 
-export const GroupItem: React.FC<GroupItemProps> = ({
+interface GroupItemProps {
+  group: Group;
+  level?: number;
+  onAddGroup: (parentId: string) => void;
+  onAddRule: (parentId: string) => void;
+  onRemove: (id: string) => void;
+  onUpdate: (id: string, updates: Partial<Group>) => void;
+  onScoreChange: (id: string, score: number) => void;
+}
+
+export const GroupItem = ({
   group,
-  onRemove,
-  onScoreChange,
-  onEdit,
+  level = 0,
   onAddGroup,
   onAddRule,
-  onToggle
-}) => {
+  onRemove,
+  onUpdate,
+  onScoreChange,
+}: GroupItemProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [name, setName] = useState(group.name);
+
+  const handleSubmitEdit = () => {
+    onUpdate(group.id, { name });
+    setIsEditing(false);
+  };
+
   return (
-    <div className="flex flex-col w-full border border-[#E0E0E0] rounded-md bg-white mb-4">
-      <Collapsible open={group.isOpen} onOpenChange={() => onToggle(group.id)}>
-        <div className="flex items-center gap-4 w-full p-2 px-4 bg-white">
-          <div className="p-2">
-            <MinusCircle className="h-6 w-6 text-[#C62828]" />
-          </div>
-          
-          <div className="flex items-center gap-2 flex-1">
-            <span className="text-base font-bold text-[rgba(0,0,0,0.87)]">{group.name}</span>
-            <div className="p-2 rounded-full">
-              <Edit className="h-6 w-6 text-[#BDBDBD] cursor-pointer" onClick={() => onEdit(group.id)} />
-            </div>
-          </div>
-          
-          <div className="w-20">
-            <div className="border border-[rgba(0,0,0,0.23)] rounded-md">
-              <div className="flex min-h-6 p-2 items-center">
-                <div className="flex-1 text-base text-[rgba(0,0,0,0.38)]">
-                  <Input
-                    type="number"
-                    value={group.score}
-                    onChange={(e) => onScoreChange(group.id, parseInt(e.target.value) || 0)}
-                    className="border-none p-0 h-6 focus-visible:ring-0"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <CollapsibleTrigger className="p-2 rounded-full">
-            {group.isOpen ? (
-              <ChevronUp className="h-6 w-6 text-[rgba(0,0,0,0.56)]" />
-            ) : (
-              <ChevronDown className="h-6 w-6 text-[rgba(0,0,0,0.56)]" />
-            )}
-          </CollapsibleTrigger>
-        </div>
+    <div className="w-full">
+      <div className="flex items-center w-full mb-2">
+        <button 
+          className="mr-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center"
+          onClick={() => onRemove(group.id)}
+        >
+          <MinusCircle className="w-4 h-4" />
+        </button>
         
-        <CollapsibleContent>
-          <div className="flex flex-col p-4 pt-2 space-y-2">
-            {group.items.map((item) => (
-              item.type === 'group' ? (
-                <GroupItem
-                  key={item.id}
-                  group={item}
-                  onRemove={onRemove}
-                  onScoreChange={onScoreChange}
-                  onEdit={onEdit}
-                  onAddGroup={onAddGroup}
-                  onAddRule={onAddRule}
-                  onToggle={onToggle}
-                />
-              ) : (
-                <RuleItem
-                  key={item.id}
-                  rule={item}
-                  onRemove={onRemove}
-                  onScoreChange={onScoreChange}
-                  onEdit={onEdit}
-                />
-              )
-            ))}
-            
-            <div className="flex gap-2 mt-2">
-              <div 
-                className="flex items-center gap-2 px-1 py-1 cursor-pointer text-[#1976D2]"
-                onClick={() => onAddGroup(group.id)}
-              >
-                <Plus className="h-4 w-4" />
-                <span className="text-xs uppercase tracking-wider">Adicionar grupo</span>
-              </div>
-              
-              <div 
-                className="flex items-center gap-2 px-1 py-1 cursor-pointer text-[#9C27B0]"
-                onClick={() => onAddRule(group.id)}
-              >
-                <Plus className="h-4 w-4" />
-                <span className="text-xs uppercase tracking-wider">Adicionar regra</span>
-              </div>
+        <div className="flex items-center flex-grow">
+          {isEditing ? (
+            <div className="flex items-center flex-grow">
+              <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="flex-grow"
+                onBlur={handleSubmitEdit}
+                onKeyDown={(e) => e.key === "Enter" && handleSubmitEdit()}
+                autoFocus
+              />
             </div>
+          ) : (
+            <>
+              <button
+                className="flex items-center"
+                onClick={() => onUpdate(group.id, { expanded: !group.expanded })}
+              >
+                {group.expanded ? (
+                  <ChevronDown className="w-5 h-5" />
+                ) : (
+                  <ChevronRight className="w-5 h-5" />
+                )}
+              </button>
+              <div className="font-medium" onClick={() => setIsEditing(true)}>
+                {group.name}
+              </div>
+              <button
+                className="ml-2"
+                onClick={() => setIsEditing(true)}
+              >
+                <Edit className="w-4 h-4 text-gray-500" />
+              </button>
+            </>
+          )}
+        </div>
+
+        <Input
+          type="number"
+          className="w-20 h-9 text-center ml-auto"
+          value={group.score}
+          onChange={(e) => onScoreChange(group.id, parseInt(e.target.value) || 0)}
+        />
+        
+        <button className="ml-2">
+          <ChevronDown className="w-5 h-5" />
+        </button>
+      </div>
+
+      {group.expanded && (
+        <div className={`pl-6 border-l border-gray-200 ml-3 ${level > 0 ? "mt-2" : ""}`}>
+          {group.items.map((item) => 
+            "items" in item ? (
+              <GroupItem
+                key={item.id}
+                group={item as Group}
+                level={level + 1}
+                onAddGroup={onAddGroup}
+                onAddRule={onAddRule}
+                onRemove={onRemove}
+                onUpdate={onUpdate}
+                onScoreChange={onScoreChange}
+              />
+            ) : (
+              <RuleItem
+                key={item.id}
+                rule={item as Rule}
+                onRemove={onRemove}
+                onUpdate={(id, updates) => onUpdate(id, updates as any)}
+                onScoreChange={onScoreChange}
+              />
+            )
+          )}
+
+          <div className="flex space-x-2 my-2">
+            <button 
+              className="flex items-center text-[#1976D2] text-xs"
+              onClick={() => onAddGroup(group.id)}
+            >
+              <Plus className="w-4 h-4 mr-1" />
+              ADICIONAR GRUPO
+            </button>
+            <button 
+              className="flex items-center text-[#9C27B0] text-xs"
+              onClick={() => onAddRule(group.id)}
+            >
+              <Plus className="w-4 h-4 mr-1" />
+              ADICIONAR REGRA
+            </button>
           </div>
-        </CollapsibleContent>
-      </Collapsible>
+        </div>
+      )}
     </div>
   );
 };
