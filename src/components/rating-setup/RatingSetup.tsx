@@ -58,11 +58,23 @@ export const RatingSetup = () => {
               <BranchForm onSubmit={handleBranchFormSubmit} />
             </TabsContent>
             <TabsContent value="scores" className="p-6 mt-0">
-              <div className="mb-4">
-                <h2 className="text-lg font-medium">Grupos e Regras</h2>
-                <p className="text-sm text-gray-500">
-                  Defina as condições e regras do rating que está sendo implementado
-                </p>
+              <div className="flex justify-between items-center w-full mb-4">
+                <div className="flex flex-col gap-1">
+                  <h2 className="text-[16px] font-semibold text-black/87 font-['Roboto'] leading-[160%] tracking-[0.15px]">
+                    Grupos e Regras
+                  </h2>
+                  <p className="text-sm text-[#757575] font-['Roboto'] leading-[157%] tracking-[0.1px]">
+                    Defina as condições e regras do rating que está sendo implementado
+                  </p>
+                </div>
+                <div className="flex items-center gap-1">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.25 6.75H11.25V2.25H6.75V6.75H3.75L9 12L14.25 6.75ZM3.75 13.5V15H14.25V13.5H3.75Z" fill="black" fillOpacity="0.38"/>
+                  </svg>
+                  <span className="text-xs text-black/38 font-['Roboto'] font-medium uppercase tracking-[0.46px]">
+                    BAIXAR DEFINITION
+                  </span>
+                </div>
               </div>
               <ScoreBuilder />
             </TabsContent>

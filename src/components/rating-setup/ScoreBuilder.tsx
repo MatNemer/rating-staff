@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Group, Rule } from "./types";
 import { GroupItem } from "./GroupItem";
 import { v4 as uuidv4 } from "uuid";
-import { Plus } from "lucide-react";
 
 export const ScoreBuilder = () => {
   const [groups, setGroups] = useState<Group[]>([
@@ -164,27 +163,8 @@ export const ScoreBuilder = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center w-full">
-        <div className="flex flex-col gap-1">
-          <h2 className="text-[16px] font-semibold text-black/87 font-['Roboto'] leading-[160%] tracking-[0.15px]">
-            Grupos e Regras
-          </h2>
-          <p className="text-sm text-[#757575] font-['Roboto'] leading-[157%] tracking-[0.1px]">
-            Defina as condições e regras do rating que está sendo implementado
-          </p>
-        </div>
-        <div className="flex items-center gap-1">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14.25 6.75H11.25V2.25H6.75V6.75H3.75L9 12L14.25 6.75ZM3.75 13.5V15H14.25V13.5H3.75Z" fill="black" fillOpacity="0.38"/>
-          </svg>
-          <span className="text-xs text-black/38 font-['Roboto'] font-medium uppercase tracking-[0.46px]">
-            BAIXAR DEFINITION
-          </span>
-        </div>
-      </div>
-
-      <div className="mb-4 border border-[#E0E0E0] rounded-md">
+    <div className="flex flex-col gap-4 w-full">
+      <div className="mb-4 border border-[#E0E0E0] rounded-md w-full">
         {groups.length === 0 ? (
           <div className="flex flex-col justify-center items-center gap-2 py-6">
             <div className="p-2 bg-[#EEE] rounded">

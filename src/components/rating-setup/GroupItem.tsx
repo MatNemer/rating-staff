@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Group, Rule } from "./types";
 import { RuleItem } from "./RuleItem";
-import { Plus } from "lucide-react";
 import { Input } from "../ui/input";
 
 interface GroupItemProps {
