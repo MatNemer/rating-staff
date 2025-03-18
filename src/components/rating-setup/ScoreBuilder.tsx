@@ -6,7 +6,61 @@ import { v4 as uuidv4 } from "uuid";
 import { Plus } from "lucide-react";
 
 export const ScoreBuilder = () => {
-  const [groups, setGroups] = useState<Group[]>([]);
+  const [groups, setGroups] = useState<Group[]>([
+    {
+      id: uuidv4(),
+      name: "Histórico Comercial",
+      score: 100,
+      expanded: true,
+      items: [
+        {
+          id: uuidv4(),
+          name: "Regra 1",
+          score: 100
+        },
+        {
+          id: uuidv4(),
+          name: "Regra 2",
+          score: 100
+        },
+        {
+          id: uuidv4(),
+          name: "Regra 3",
+          score: 100
+        },
+        {
+          id: uuidv4(),
+          name: "Liquidez",
+          score: 100,
+          expanded: true,
+          items: [
+            {
+              id: uuidv4(),
+              name: "Regra de Liquidez 1",
+              score: 100
+            },
+            {
+              id: uuidv4(),
+              name: "Regra de Liquidez 2",
+              score: 100
+            },
+            {
+              id: uuidv4(),
+              name: "Regra de Liquidez 3",
+              score: 100
+            },
+            {
+              id: uuidv4(),
+              name: "Grupo de Liquidez",
+              score: 100,
+              expanded: true,
+              items: []
+            }
+          ]
+        }
+      ]
+    }
+  ]);
 
   const handleAddTopLevelGroup = () => {
     const newGroup: Group = {
@@ -25,6 +79,8 @@ export const ScoreBuilder = () => {
       name: "Nova Regra",
       score: 100
     };
+    // Rules can't have children so we just add it to the array
+    // This is required for the top level only
     setGroups([...groups, newRule as any]);
   };
 
@@ -65,24 +121,6 @@ export const ScoreBuilder = () => {
     };
     
     setGroups(prevGroups => findAndAddItem(prevGroups, parentId, newRule));
-  };
-
-  const findAndRemoveItem = (items: (Group | Rule)[]): (Group | Rule)[] => {
-    const result: (Group | Rule)[] = [];
-    
-    for (const item of items) {
-      if ('items' in item) {
-        const newItems = findAndRemoveItem((item as Group).items);
-        result.push({
-          ...item,
-          items: newItems
-        });
-      } else {
-        result.push(item);
-      }
-    }
-    
-    return result;
   };
 
   const handleRemoveItem = (id: string) => {
