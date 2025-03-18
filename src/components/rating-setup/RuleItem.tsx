@@ -18,10 +18,18 @@ export const RuleItem = ({
 }: RuleItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(rule.name);
+  const [score, setScore] = useState(rule.score.toString());
 
   const handleSubmitEdit = () => {
     onUpdate(rule.id, { name });
     setIsEditing(false);
+  };
+
+  const handleScoreChange = (value: string) => {
+    setScore(value);
+    // If empty string, set to 0
+    const numValue = value === '' ? 0 : parseInt(value);
+    onScoreChange(rule.id, numValue);
   };
 
   return (
@@ -64,18 +72,18 @@ export const RuleItem = ({
       )}
 
       <div className="w-[80px]">
-        <div className="border border-black/23 rounded-md bg-white px-3">
-          <div className="flex items-center">
-            <input
-              type="number"
-              className="w-full h-10 text-center text-[#212121] font-['Roboto'] text-base bg-transparent outline-none"
-              value={rule.score}
-              onChange={(e) => onScoreChange(rule.id, parseInt(e.target.value) || 0)}
-            />
-            <svg className="flex-shrink-0" width="17" height="25" viewBox="0 0 17 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="16.4853" height="24.9706" transform="translate(0.514648)" fill="#E0E0E0"/>
-              <path d="M4.51419 8.24173L8.75684 3.99909L12.9995 8.24173L4.51419 8.24173Z" fill="#212121"/>
-              <path d="M12.9995 16.727L8.75684 20.9697L4.5142 16.727H12.9995Z" fill="#212121"/>
+        <div className="border border-black/23 rounded-md bg-white px-3 flex items-center">
+          <input
+            type="text"
+            inputMode="numeric"
+            className="w-full h-10 text-center text-[#212121] font-['Roboto'] text-base bg-transparent outline-none"
+            value={score}
+            onChange={(e) => handleScoreChange(e.target.value)}
+          />
+          <div className="flex-shrink-0 w-[25px] h-[40px] bg-[#E0E0E0] flex flex-col justify-center items-center overflow-hidden">
+            <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.51419 8.24173L8.75684 3.99909L12.9995 8.24173L4.51419 8.24173Z" fill="#505050"/>
+              <path d="M12.9995 28.727L8.75684 32.9697L4.5142 28.727H12.9995Z" fill="#505050"/>
             </svg>
           </div>
         </div>

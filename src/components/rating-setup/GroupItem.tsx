@@ -105,9 +105,9 @@ export const GroupItem = ({
 
           {/* Score display (read-only) */}
           <div className="w-[80px]">
-            <div className="border border-black/23 rounded-md px-3 bg-gray-50">
+            <div className="border border-black/23 rounded-md px-3 bg-gray-50 flex items-center">
               <input
-                type="number"
+                type="text"
                 className="w-full h-10 text-center text-black/38 font-['Roboto'] text-base bg-transparent outline-none cursor-not-allowed"
                 value={totalScore}
                 readOnly
