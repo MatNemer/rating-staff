@@ -1,8 +1,10 @@
+
 import { useState } from "react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
 import { BranchForm } from "./BranchForm";
 import { BranchFormData } from "./types";
+import { Separator } from "@/components/ui/separator";
 
 export const RatingSetup = () => {
   const handleSaveDraft = () => {
@@ -30,20 +32,22 @@ export const RatingSetup = () => {
   };
 
   return (
-    <div className="bg-neutral-100 overflow-hidden">
+    <div className="bg-white overflow-hidden">
       <Header onSaveDraft={handleSaveDraft} onPublish={handlePublish} />
-      <div className="w-full">
-        <div className="gap-5 flex max-md:flex-col max-md:items-stretch">
-          <div className="w-[22%] max-md:w-full">
-            <Sidebar
-              onOrganizationChange={handleOrganizationChange}
-              onWorkflowChange={handleWorkflowChange}
-              onVersionChange={handleVersionChange}
-            />
-          </div>
-          <div className="w-[78%] ml-5 max-md:w-full max-md:ml-0">
-            <BranchForm onSubmit={handleBranchFormSubmit} />
-          </div>
+      <div className="w-full flex">
+        <div className="w-[250px] flex-shrink-0">
+          <Sidebar
+            onOrganizationChange={handleOrganizationChange}
+            onWorkflowChange={handleWorkflowChange}
+            onVersionChange={handleVersionChange}
+          />
+        </div>
+        
+        {/* Vertical separator line */}
+        <Separator orientation="vertical" className="h-[calc(100vh-64px)] bg-[#F1F1F1]" />
+        
+        <div className="flex-1">
+          <BranchForm onSubmit={handleBranchFormSubmit} />
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+
 import {
   Select,
   SelectContent,
@@ -13,11 +14,12 @@ export const Sidebar = ({
   onVersionChange,
 }: SidebarProps) => {
   return (
-    <div className="bg-white min-h-[704px] grow text-black font-normal tracking-[0.15px] w-full pt-4 pb-[494px] px-4 border-[rgba(238,238,238,1)] border-r">
-      <h2 className="text-base font-semibold leading-[1.6]">
+    <div className="min-h-[704px] w-full pt-4 px-4">
+      <h2 className="text-base font-semibold leading-[1.6] mb-6">
         Ambiente de configuração
       </h2>
-      <div className="w-full mt-4">
+      <div className="w-full mb-6">
+        <p className="text-sm text-gray-500 mb-1">Organização</p>
         <Select onValueChange={onOrganizationChange}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Selecione uma org" />
@@ -28,7 +30,8 @@ export const Sidebar = ({
           </SelectContent>
         </Select>
       </div>
-      <div className="w-full mt-4">
+      <div className="w-full mb-6">
+        <p className="text-sm text-gray-500 mb-1">Workflow</p>
         <Select onValueChange={onWorkflowChange}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Selecione um Workflow" />
@@ -39,7 +42,8 @@ export const Sidebar = ({
           </SelectContent>
         </Select>
       </div>
-      <div className="w-full mt-4">
+      <div className="w-full">
+        <p className="text-sm text-gray-500 mb-1">Versão</p>
         <Select onValueChange={onVersionChange}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Selecione uma versão" />
