@@ -1,3 +1,4 @@
+
 import { useState, useMemo } from "react";
 import { Group, Rule } from "./types";
 import { RuleItem } from "./RuleItem";
@@ -61,35 +62,39 @@ export const GroupItem = ({
           {/* Group name */}
           <div className="flex-1">
             {isEditing ? (
-              <div className="relative flex flex-col w-full border-2 border-[#1976D2] rounded-md">
-                <Input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="flex-grow border-none px-3 h-10"
-                  onBlur={handleSubmitEdit}
-                  onKeyDown={(e) => e.key === "Enter" && handleSubmitEdit()}
-                  autoFocus
-                />
-                <div className="flex h-0.5 px-1 items-center gap-2.5 relative left-3 bg-white">
-                  <span className="text-xs text-[#1976D2] font-['Roboto'] leading-3 tracking-[0.15px]">
-                    Informe o nome do Grupo
-                  </span>
+              <div className="relative w-full">
+                <div className="border-2 border-[#1976D2] rounded-md bg-white">
+                  <div className="absolute -top-2 left-3 px-1 bg-white z-10">
+                    <span className="text-xs text-[#1976D2] font-['Roboto'] leading-3 tracking-[0.15px]">
+                      Informe o nome do Grupo
+                    </span>
+                  </div>
+                  <div className="flex items-center">
+                    <Input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="flex-grow border-none px-3 h-10"
+                      onBlur={handleSubmitEdit}
+                      onKeyDown={(e) => e.key === "Enter" && handleSubmitEdit()}
+                      autoFocus
+                    />
+                    <button
+                      className="pr-3"
+                      onClick={handleSubmitEdit}
+                    >
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clipPath="url(#clip0_12036_13541)">
+                          <path d="M17 3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3ZM12 19C10.34 19 9 17.66 9 16C9 14.34 10.34 13 12 13C13.66 13 15 14.34 15 16C15 17.66 13.66 19 12 19ZM15 9H5V5H15V9Z" fill="#1976D2"/>
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_12036_13541">
+                            <rect width="24" height="24" fill="white"/>
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <button
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                  onClick={handleSubmitEdit}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clipPath="url(#clip0_12036_13541)">
-                      <path d="M17 3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3ZM12 19C10.34 19 9 17.66 9 16C9 14.34 10.34 13 12 13C13.66 13 15 14.34 15 16C15 17.66 13.66 19 12 19ZM15 9H5V5H15V9Z" fill="#1976D2"/>
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_12036_13541">
-                        <rect width="24" height="24" fill="white"/>
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </button>
               </div>
             ) : (
               <div className="flex items-center gap-2">
