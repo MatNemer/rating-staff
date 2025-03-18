@@ -105,13 +105,15 @@ export const GroupItem = ({
 
           {/* Score display (read-only) */}
           <div className="w-[80px]">
-            <div className="border border-black/23 rounded-md px-3 bg-gray-50 flex items-center">
-              <input
-                type="text"
-                className="w-full h-10 text-center text-black/38 font-['Roboto'] text-base bg-transparent outline-none cursor-not-allowed"
-                value={totalScore}
-                readOnly
-              />
+            <div className="flex items-start w-full border border-[rgba(0,0,0,0.23)] rounded-md bg-gray-50">
+              <div className="flex items-center min-h-[24px] py-2 px-3 w-full">
+                <input
+                  type="text"
+                  className="flex-1 text-center text-black/38 font-['Roboto'] text-[16px] leading-[24px] tracking-[0.15px] bg-transparent outline-none cursor-not-allowed"
+                  value={totalScore}
+                  readOnly
+                />
+              </div>
             </div>
           </div>
         </div>
