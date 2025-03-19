@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import { Group, Rule } from "./types";
 import { RuleItem } from "./RuleItem";
 import { Input } from "../ui/input";
+import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
 
 interface GroupItemProps {
   group: Group;
@@ -25,10 +26,20 @@ export const GroupItem = ({
 }: GroupItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(group.name);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const handleSubmitEdit = () => {
     onUpdate(group.id, { name });
     setIsEditing(false);
+  };
+
+  const handleDelete = () => {
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    onRemove(group.id);
+    setIsDeleteDialogOpen(false);
   };
 
   // Calculate the total score from all children items
@@ -44,7 +55,7 @@ export const GroupItem = ({
           <div className="p-2">
             <button 
               className="text-white"
-              onClick={() => onRemove(group.id)}
+              onClick={handleDelete}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_12036_13531)">
@@ -192,6 +203,14 @@ export const GroupItem = ({
           </div>
         </div>
       )}
+
+      <DeleteConfirmationDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onConfirm={confirmDelete}
+        title="Confirmar exclusão de grupo"
+        description={`Tem certeza que deseja excluir o grupo "${group.name}" e todos os seus itens? Esta ação não pode ser desfeita.`}
+      />
     </div>
   );
 };

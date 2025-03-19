@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Rule } from "./types";
 import { Input } from "../ui/input";
+import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
 
 interface RuleItemProps {
   rule: Rule;
@@ -19,6 +20,7 @@ export const RuleItem = ({
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(rule.name);
   const [score, setScore] = useState(rule.score.toString());
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const handleSubmitEdit = () => {
     onUpdate(rule.id, { name });
@@ -32,11 +34,20 @@ export const RuleItem = ({
     onScoreChange(rule.id, numValue);
   };
 
+  const handleDelete = () => {
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    onRemove(rule.id);
+    setIsDeleteDialogOpen(false);
+  };
+
   return (
     <div className="flex items-center w-full p-2 rounded-md bg-[#F5F5F5] gap-2">
       <div className="p-2">
         <button 
-          onClick={() => onRemove(rule.id)}
+          onClick={handleDelete}
         >
           <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_12036_19340)">
@@ -106,6 +117,14 @@ export const RuleItem = ({
           </svg>
         </button>
       </div>
+
+      <DeleteConfirmationDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onConfirm={confirmDelete}
+        title="Confirmar exclusão de regra"
+        description={`Tem certeza que deseja excluir a regra "${rule.name}"? Esta ação não pode ser desfeita.`}
+      />
     </div>
   );
 };

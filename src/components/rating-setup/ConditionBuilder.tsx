@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -9,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { ConditionBuilderProps } from "./types";
 import { MinusCircle, Plus, Trash2 } from "lucide-react";
+import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
 
 export const ConditionBuilder = ({
   conditions,
@@ -17,6 +19,22 @@ export const ConditionBuilder = ({
   onRemoveCondition,
   onConditionChange,
 }: ConditionBuilderProps) => {
+  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const handleDelete = (index: number) => {
+    setDeleteIndex(index);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (deleteIndex !== null) {
+      onRemoveCondition(deleteIndex);
+      setIsDeleteDialogOpen(false);
+      setDeleteIndex(null);
+    }
+  };
+
   return (
     <div className="w-full mt-4">
       <div className="text-[rgba(33,33,33,1)] text-sm font-semibold">
@@ -37,7 +55,7 @@ export const ConditionBuilder = ({
                     variant="ghost"
                     size="icon"
                     className="bg-red-100 hover:bg-red-200 rounded-md p-2"
-                    onClick={() => onRemoveCondition(index)}
+                    onClick={() => handleDelete(index)}
                   >
                     <Trash2 className="h-5 w-5 text-red-600" />
                   </Button>
@@ -112,6 +130,14 @@ export const ConditionBuilder = ({
           <span className="uppercase">adicionar condição</span>
         </Button>
       </div>
+
+      <DeleteConfirmationDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onConfirm={confirmDelete}
+        title="Confirmar exclusão de condição"
+        description="Tem certeza que deseja excluir esta condição? Esta ação não pode ser desfeita."
+      />
     </div>
   );
 };
