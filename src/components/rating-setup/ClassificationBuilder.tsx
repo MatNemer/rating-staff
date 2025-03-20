@@ -71,9 +71,6 @@ export const ClassificationBuilder = () => {
                 Intervalos de Critérios
               </div>
               <div className="w-[184px] text-[#212121] font-['Roboto'] text-sm">
-                Intervalos de Critérios
-              </div>
-              <div className="w-[184px] text-[#212121] font-['Roboto'] text-sm">
                 Resultado
               </div>
             </div>
