@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +13,7 @@ import { ConditionBuilder } from "./ConditionBuilder";
 import { PriorityEditorModal } from "./PriorityEditorModal";
 import { CreateBranchModal } from "./CreateBranchModal";
 import { ScoreBuilder } from "./ScoreBuilder";
+import { ClassificationBuilder } from "./ClassificationBuilder";
 
 export const BranchForm = ({ onSubmit }: BranchFormProps) => {
   const [conditions, setConditions] = useState<Condition[]>([]);
@@ -22,7 +22,6 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
   const [activeTab, setActiveTab] = useState("conditional");
 
   const handleAddExpression = () => {
-    // Add a new condition with AND logical operator
     setConditions([
       ...conditions,
       { field: "", operator: "", value: "", logicalOperator: "AND" },
@@ -30,7 +29,6 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
   };
 
   const handleAddCondition = () => {
-    // Add a new condition with OR logical operator
     setConditions([
       ...conditions,
       { field: "", operator: "", value: "", logicalOperator: "OR" },
@@ -49,7 +47,6 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
 
   const handleCreateBranch = (data: any) => {
     console.log("Creating branch with data:", data);
-    // Here you would typically send this data to your API
   };
 
   return (
@@ -59,7 +56,7 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
           <div className="self-stretch flex items-center gap-1 text-[rgba(66,66,66,1)] font-medium whitespace-nowrap justify-center">
             <span>Branch</span>
             <img
-              src="https://cdn.builder.io/api/v1/image/assets/78373acc90494a24931494d3d68de37d/20f0487d1327a743ab3ba5c10d6e8715e52f6cd1e6b61643617a1234c4922ed6?placeholderIfAbsent=true"
+              src="https://cdn.builder.io/api/v1/image/assets/78373acc90494a24931494d3d68de37d/20f0487d1327a743ab3ba5c10d6e8715e52f6cd1e6b61643617a1234c4922ed66?placeholderIfAbsent=true"
               className="aspect-[1] object-contain w-3.5"
             />
           </div>
@@ -98,7 +95,6 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
         </div>
       </div>
 
-      {/* Custom Tab Navigation based on Builder.io code */}
       <div className="mt-4 w-full border-b border-[#EEE]">
         <div className="flex w-full items-start">
           <div 
@@ -201,11 +197,7 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
       )}
 
       {activeTab === "grade" && (
-        <div className="flex w-full flex-col items-stretch mt-4">
-          <div className="text-gray-600 text-center p-8">
-            Conteúdo da aba Classificações
-          </div>
-        </div>
+        <ClassificationBuilder />
       )}
 
       <PriorityEditorModal
@@ -213,7 +205,6 @@ export const BranchForm = ({ onSubmit }: BranchFormProps) => {
         onOpenChange={setIsPriorityModalOpen}
         onSave={(items) => {
           console.log("Saved priorities:", items);
-          // Here you would handle the saved priority order
         }}
       />
 
