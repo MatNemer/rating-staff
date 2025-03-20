@@ -67,12 +67,15 @@ export const ClassificationBuilder = () => {
           <div className="flex flex-col items-start gap-[10px] flex-1">
             {/* Header Row */}
             <div className="flex items-start gap-3 w-full">
-              <div className="w-[204px] text-[#212121] font-['Roboto'] text-sm">
+              <div className="w-[204px]"></div>
+              <div className="w-[184px] text-[#212121] font-['Roboto'] text-sm">
                 Intervalos de Critérios
               </div>
+              <div className="flex-1"></div>
               <div className="w-[184px] text-[#212121] font-['Roboto'] text-sm">
                 Resultado
               </div>
+              <div className="w-5"></div>
             </div>
 
             {/* Criteria Rows */}
