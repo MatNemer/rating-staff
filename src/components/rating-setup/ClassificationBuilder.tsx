@@ -73,7 +73,7 @@ export const ClassificationBuilder = () => {
               <div className="w-[184px] text-[#212121] font-['Roboto'] text-sm">
                 Intervalos de Critérios
               </div>
-              <div className="flex-1 text-[#212121] font-['Roboto'] text-sm">
+              <div className="w-[184px] text-[#212121] font-['Roboto'] text-sm">
                 Resultado
               </div>
             </div>
@@ -94,7 +94,7 @@ export const ClassificationBuilder = () => {
                   </div>
                   
                   {/* Value */}
-                  <div className="flex flex-1 bg-white">
+                  <div className="flex w-[184px] bg-white">
                     <div className="flex px-3 w-full rounded border border-[rgba(0,0,0,0.23)]">
                       <div className="flex py-2 items-center w-full">
                         <div className="flex-1 text-[rgba(0,0,0,0.60)] font-['Roboto'] text-base font-normal leading-6 tracking-[0.15px]">
@@ -112,7 +112,7 @@ export const ClassificationBuilder = () => {
                   </div>
                   
                   {/* Result */}
-                  <div className="flex flex-1 bg-white">
+                  <div className="flex w-[184px] bg-white">
                     <div className="flex px-3 w-full rounded border border-[rgba(0,0,0,0.23)]">
                       <div className="flex py-2 items-center w-full">
                         <div className="flex-1 text-[rgba(0,0,0,0.60)] font-['Roboto'] text-base font-normal leading-6 tracking-[0.15px]">
