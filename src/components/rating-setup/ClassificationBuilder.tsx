@@ -72,7 +72,7 @@ export const ClassificationBuilder = () => {
                 Intervalos de Critérios
               </div>
               <div className="flex-1"></div>
-              <div className="w-[184px] text-[#212121] font-['Roboto'] text-sm">
+              <div className="text-[#212121] font-['Roboto'] text-sm w-[184px] text-left">
                 Resultado
               </div>
               <div className="w-5"></div>
