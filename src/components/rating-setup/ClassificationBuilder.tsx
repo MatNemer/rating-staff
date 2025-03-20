@@ -1,12 +1,12 @@
 
-import { useState } from "react";
+import { useState, KeyboardEvent } from "react";
 import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
 import { Input } from "../ui/input";
 
 interface ClassificationCriteria {
   id: string;
   condition: string;
-  value: number;
+  value: number | string;
   result: string;
   limitPercentage: string;
 }
@@ -67,10 +67,16 @@ export const ClassificationBuilder = () => {
     setCriteriaToDelete(null);
   };
 
-  const handleValueChange = (id: string, newValue: number) => {
+  // Modified to handle string values
+  const handleValueChange = (id: string, newValue: string) => {
+    // Only allow numbers and decimal points
+    if (newValue !== "" && !/^[0-9]*\.?[0-9]*$/.test(newValue)) {
+      return;
+    }
+
     const updatedCriteria = criteria.map(item => {
       if (item.id === id) {
-        return { ...item, value: newValue };
+        return { ...item, value: newValue === "" ? "" : newValue };
       }
       return item;
     });
@@ -91,13 +97,62 @@ export const ClassificationBuilder = () => {
   };
 
   const handleLimitPercentageChange = (id: string, newPercentage: string) => {
+    // Only allow numbers and decimal points
+    if (newPercentage !== "" && !/^[0-9]*\.?[0-9]*$/.test(newPercentage)) {
+      return;
+    }
+
+    setCriteria(criteria.map(item => {
+      if (item.id === id) {
+        // Store the raw numeric value without % symbol for editing
+        return { ...item, limitPercentage: newPercentage };
+      }
+      return item;
+    }));
+  };
+
+  // Format percentage for display (add % symbol)
+  const formatPercentage = (value: string): string => {
+    if (value === "") return "";
+    
+    // Don't add % if it already ends with %
+    if (value.endsWith("%")) return value;
+    
+    return `${value}%`;
+  };
+
+  // Handle Enter key press
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, id: string, field: 'value' | 'result' | 'limitPercentage') => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      e.currentTarget.blur(); // Remove focus to trigger onBlur
+
+      // For percentage fields, format when saving with Enter
+      if (field === 'limitPercentage') {
+        const newValue = formatPercentage(e.currentTarget.value);
+        setCriteria(criteria.map(item => 
+          item.id === id ? { ...item, limitPercentage: newValue } : item
+        ));
+      }
+    }
+  };
+
+  // Format percentage on blur
+  const handlePercentageBlur = (id: string, value: string) => {
+    const formattedValue = formatPercentage(value);
     setCriteria(criteria.map(item => 
-      item.id === id ? { ...item, limitPercentage: newPercentage } : item
+      item.id === id ? { ...item, limitPercentage: formattedValue } : item
     ));
   };
 
   const handleSave = () => {
-    console.log("Saving criteria:", criteria);
+    // Format all percentages with % before saving
+    const formattedCriteria = criteria.map(item => ({
+      ...item, 
+      limitPercentage: formatPercentage(item.limitPercentage)
+    }));
+    
+    console.log("Saving criteria:", formattedCriteria);
     // Logic to save criteria
   };
 
@@ -155,9 +210,10 @@ export const ClassificationBuilder = () => {
                   {/* Value */}
                   <div className="flex w-[184px] bg-white">
                     <Input
-                      type="number"
+                      type="text"
                       value={item.value}
-                      onChange={(e) => handleValueChange(item.id, Number(e.target.value))}
+                      onChange={(e) => handleValueChange(item.id, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(e, item.id, 'value')}
                       disabled={index === criteria.length - 1} // Disable the last row (menor ou igual a)
                       className="w-full border-[rgba(0,0,0,0.23)] text-[rgba(0,0,0,0.60)] font-['Roboto']"
                     />
@@ -176,6 +232,7 @@ export const ClassificationBuilder = () => {
                       type="text"
                       value={item.result}
                       onChange={(e) => handleResultChange(item.id, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(e, item.id, 'result')}
                       className="w-full border-[rgba(0,0,0,0.23)] text-[rgba(0,0,0,0.60)] font-['Roboto']"
                     />
                   </div>
@@ -229,8 +286,10 @@ export const ClassificationBuilder = () => {
                 <div key={`limit-${item.id}`} className="flex flex-col items-start w-full">
                   <Input
                     type="text"
-                    value={item.limitPercentage}
+                    value={item.limitPercentage.replace(/%$/, '')} // Remove % for editing
                     onChange={(e) => handleLimitPercentageChange(item.id, e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e, item.id, 'limitPercentage')}
+                    onBlur={(e) => handlePercentageBlur(item.id, e.target.value)}
                     className="w-full border-[rgba(0,0,0,0.23)] text-[rgba(0,0,0,0.60)] font-['Roboto']"
                   />
                 </div>
