@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
-import { PlusIcon } from "lucide-react";
+import { Input } from "../ui/input";
 
 interface ClassificationCriteria {
   id: string;
@@ -25,8 +25,25 @@ export const ClassificationBuilder = () => {
   ]);
 
   const handleAddGrade = () => {
-    // Add new criteria logic
-    console.log("Add new grade clicked");
+    const lastItem = criteria[criteria.length - 2]; // Get the second-to-last item
+    const newId = String(Number(criteria[criteria.length - 1].id) + 1);
+    
+    // Create a new criteria with value slightly below the last "maior que" criteria
+    const newCriteria = {
+      id: newId,
+      condition: "maior que",
+      value: lastItem.value - 10,
+      result: String.fromCharCode(lastItem.result.charCodeAt(0) + 1),
+      limitPercentage: "0%"
+    };
+    
+    // Add the new criteria as the second-to-last item
+    const newCriteriaList = [...criteria.slice(0, -1), newCriteria, criteria[criteria.length - 1]];
+    
+    // Update the "menor ou igual a" criteria to match the new lowest "maior que" value
+    newCriteriaList[newCriteriaList.length - 1].value = newCriteria.value;
+    
+    setCriteria(newCriteriaList);
   };
 
   const confirmDelete = (id: string) => {
@@ -36,10 +53,52 @@ export const ClassificationBuilder = () => {
 
   const handleDeleteCriteria = () => {
     if (criteriaToDelete) {
-      setCriteria(criteria.filter(item => item.id !== criteriaToDelete));
+      const newCriteria = criteria.filter(item => item.id !== criteriaToDelete);
+      
+      // If the last "maior que" item was deleted, update the "menor ou igual a" value
+      if (newCriteria.length > 1) {
+        const lastMaiorQueIndex = newCriteria.length - 2;
+        newCriteria[newCriteria.length - 1].value = newCriteria[lastMaiorQueIndex].value;
+      }
+      
+      setCriteria(newCriteria);
     }
     setShowDeleteDialog(false);
     setCriteriaToDelete(null);
+  };
+
+  const handleValueChange = (id: string, newValue: number) => {
+    const updatedCriteria = criteria.map(item => {
+      if (item.id === id) {
+        return { ...item, value: newValue };
+      }
+      return item;
+    });
+    
+    // If the last "maior que" item was changed, update the "menor ou igual a" value
+    const lastMaiorQueIndex = updatedCriteria.length - 2;
+    if (id === updatedCriteria[lastMaiorQueIndex].id) {
+      updatedCriteria[updatedCriteria.length - 1].value = updatedCriteria[lastMaiorQueIndex].value;
+    }
+    
+    setCriteria(updatedCriteria);
+  };
+
+  const handleResultChange = (id: string, newResult: string) => {
+    setCriteria(criteria.map(item => 
+      item.id === id ? { ...item, result: newResult } : item
+    ));
+  };
+
+  const handleLimitPercentageChange = (id: string, newPercentage: string) => {
+    setCriteria(criteria.map(item => 
+      item.id === id ? { ...item, limitPercentage: newPercentage } : item
+    ));
+  };
+
+  const handleSave = () => {
+    console.log("Saving criteria:", criteria);
+    // Logic to save criteria
   };
 
   return (
@@ -80,7 +139,7 @@ export const ClassificationBuilder = () => {
 
             {/* Criteria Rows */}
             <div className="flex flex-col items-start gap-3 w-full">
-              {criteria.map((item) => (
+              {criteria.map((item, index) => (
                 <div key={item.id} className="flex items-center gap-3 w-full">
                   {/* Condition */}
                   <div className="flex w-[204px] bg-[#F8F9FC]">
@@ -95,13 +154,13 @@ export const ClassificationBuilder = () => {
                   
                   {/* Value */}
                   <div className="flex w-[184px] bg-white">
-                    <div className="flex px-3 w-full rounded border border-[rgba(0,0,0,0.23)]">
-                      <div className="flex py-2 items-center w-full">
-                        <div className="flex-1 text-[rgba(0,0,0,0.60)] font-['Roboto'] text-base font-normal leading-6 tracking-[0.15px]">
-                          {item.value}
-                        </div>
-                      </div>
-                    </div>
+                    <Input
+                      type="number"
+                      value={item.value}
+                      onChange={(e) => handleValueChange(item.id, Number(e.target.value))}
+                      disabled={index === criteria.length - 1} // Disable the last row (menor ou igual a)
+                      className="w-full border-[rgba(0,0,0,0.23)] text-[rgba(0,0,0,0.60)] font-['Roboto']"
+                    />
                   </div>
                   
                   {/* Arrow */}
@@ -113,23 +172,23 @@ export const ClassificationBuilder = () => {
                   
                   {/* Result */}
                   <div className="flex w-[184px] bg-white">
-                    <div className="flex px-3 w-full rounded border border-[rgba(0,0,0,0.23)]">
-                      <div className="flex py-2 items-center w-full">
-                        <div className="flex-1 text-[rgba(0,0,0,0.60)] font-['Roboto'] text-base font-normal leading-6 tracking-[0.15px]">
-                          {item.result}
-                        </div>
-                      </div>
-                    </div>
+                    <Input
+                      type="text"
+                      value={item.result}
+                      onChange={(e) => handleResultChange(item.id, e.target.value)}
+                      className="w-full border-[rgba(0,0,0,0.23)] text-[rgba(0,0,0,0.60)] font-['Roboto']"
+                    />
                   </div>
                   
                   {/* Delete Button */}
                   <button 
                     className="w-5 h-5"
                     onClick={() => confirmDelete(item.id)}
+                    disabled={criteria.length <= 2} // Disable deletion when only 2 items remain
                   >
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clipPath="url(#clip0_12080_32986)">
-                        <path d="M10.0003 1.66602C5.40033 1.66602 1.66699 5.39935 1.66699 9.99935C1.66699 14.5993 5.40033 18.3327 10.0003 18.3327C14.6003 18.3327 18.3337 14.5993 18.3337 9.99935C18.3337 5.39935 14.6003 1.66602 10.0003 1.66602ZM14.167 10.8327H5.83366V9.16602H14.167V10.8327Z" fill="#C62828"/>
+                        <path d="M10.0003 1.66602C5.40033 1.66602 1.66699 5.39935 1.66699 9.99935C1.66699 14.5993 5.40033 18.3327 10.0003 18.3327C14.6003 18.3327 18.3337 14.5993 18.3337 9.99935C18.3337 5.39935 14.6003 1.66602 10.0003 1.66602ZM14.167 10.8327H5.83366V9.16602H14.167V10.8327Z" fill={criteria.length <= 2 ? "#CCCCCC" : "#C62828"}/>
                       </g>
                       <defs>
                         <clipPath id="clip0_12080_32986">
@@ -168,13 +227,12 @@ export const ClassificationBuilder = () => {
             <div className="flex flex-col items-start gap-3 w-full">
               {criteria.map((item) => (
                 <div key={`limit-${item.id}`} className="flex flex-col items-start w-full">
-                  <div className="flex px-3 w-full rounded border border-[rgba(0,0,0,0.23)]">
-                    <div className="flex min-h-6 py-2 items-center w-full">
-                      <div className="flex-1 text-[rgba(0,0,0,0.60)] font-['Roboto'] text-base font-normal leading-6 tracking-[0.15px]">
-                        {item.limitPercentage}
-                      </div>
-                    </div>
-                  </div>
+                  <Input
+                    type="text"
+                    value={item.limitPercentage}
+                    onChange={(e) => handleLimitPercentageChange(item.id, e.target.value)}
+                    className="w-full border-[rgba(0,0,0,0.23)] text-[rgba(0,0,0,0.60)] font-['Roboto']"
+                  />
                 </div>
               ))}
               
@@ -187,7 +245,10 @@ export const ClassificationBuilder = () => {
         </div>
 
         {/* Save Button */}
-        <button className="flex p-[6px_16px] justify-center items-center rounded bg-[#1976D2] shadow-[0px_1px_5px_0px_rgba(0,0,0,0.12),0px_2px_2px_0px_rgba(0,0,0,0.14),0px_3px_1px_-2px_rgba(0,0,0,0.20)]">
+        <button 
+          className="flex p-[6px_16px] justify-center items-center rounded bg-[#1976D2] shadow-[0px_1px_5px_0px_rgba(0,0,0,0.12),0px_2px_2px_0px_rgba(0,0,0,0.14),0px_3px_1px_-2px_rgba(0,0,0,0.20)]"
+          onClick={handleSave}
+        >
           <div className="text-white font-['Roboto'] text-sm font-normal leading-6 tracking-[0.4px] uppercase">
             Salvar
           </div>
