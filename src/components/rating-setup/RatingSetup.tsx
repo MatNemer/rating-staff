@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
@@ -5,6 +6,7 @@ import { BranchForm } from "./BranchForm";
 import { BranchFormData } from "./types";
 import { Separator } from "@/components/ui/separator";
 import { RatingPreviewButton } from "./RatingPreviewButton";
+
 export const RatingSetup = () => {
   const handleSaveDraft = () => {
     console.log("Saving draft...");
@@ -36,7 +38,9 @@ export const RatingSetup = () => {
         
         <div className="flex-1">
           {/* Rating Preview Button */}
-          
+          <div className="p-4">
+            <RatingPreviewButton />
+          </div>
           
           <BranchForm onSubmit={handleBranchFormSubmit} />
         </div>

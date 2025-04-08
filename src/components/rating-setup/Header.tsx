@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { HeaderProps } from "./types";
+import { RatingPreviewButton } from "./RatingPreviewButton";
 
 export const Header = ({ onSaveDraft, onPublish }: HeaderProps) => {
   return (
@@ -41,13 +42,7 @@ export const Header = ({ onSaveDraft, onPublish }: HeaderProps) => {
               </Select>
             </div>
             
-            <div className="flex py-1.5 px-4 flex-col justify-center items-center rounded border border-[rgba(25,118,210,0.50)]">
-              <div className="flex justify-center items-center gap-2">
-                <div className="text-[#1976D2] font-['Roboto'] text-sm font-normal leading-[150%] tracking-[0.15px] uppercase">
-                  Preview
-                </div>
-              </div>
-            </div>
+            <RatingPreviewButton />
           </div>
           
           <div className="w-px h-[33px] bg-[#E0E0E0]"></div>
