@@ -5,8 +5,7 @@ import { Sidebar } from "./Sidebar";
 import { BranchForm } from "./BranchForm";
 import { BranchFormData } from "./types";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScoreBuilder } from "./ScoreBuilder";
+import { RatingPreviewButton } from "./RatingPreviewButton";
 
 export const RatingSetup = () => {
   const handleSaveDraft = () => {
@@ -49,6 +48,11 @@ export const RatingSetup = () => {
         <Separator orientation="vertical" className="h-[calc(100vh-64px)] bg-[#F1F1F1]" />
         
         <div className="flex-1">
+          {/* Rating Preview Button */}
+          <div className="p-8">
+            <RatingPreviewButton />
+          </div>
+          
           <BranchForm onSubmit={handleBranchFormSubmit} />
         </div>
       </div>
