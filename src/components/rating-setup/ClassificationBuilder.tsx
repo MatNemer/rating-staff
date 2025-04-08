@@ -28,11 +28,17 @@ export const ClassificationBuilder = () => {
     const lastItem = criteria[criteria.length - 2]; // Get the second-to-last item
     const newId = String(Number(criteria[criteria.length - 1].id) + 1);
     
+    // Ensure we're working with numbers for arithmetic operations
+    const lastItemValue = typeof lastItem.value === 'string' 
+      ? parseFloat(lastItem.value) 
+      : lastItem.value;
+    
     // Create a new criteria with value slightly below the last "maior que" criteria
+    const newValue = lastItemValue - 10;
     const newCriteria = {
       id: newId,
       condition: "maior que",
-      value: lastItem.value - 10,
+      value: newValue,
       result: String.fromCharCode(lastItem.result.charCodeAt(0) + 1),
       limitPercentage: "0%"
     };
@@ -41,7 +47,7 @@ export const ClassificationBuilder = () => {
     const newCriteriaList = [...criteria.slice(0, -1), newCriteria, criteria[criteria.length - 1]];
     
     // Update the "menor ou igual a" criteria to match the new lowest "maior que" value
-    newCriteriaList[newCriteriaList.length - 1].value = newCriteria.value;
+    newCriteriaList[newCriteriaList.length - 1].value = newValue;
     
     setCriteria(newCriteriaList);
   };
